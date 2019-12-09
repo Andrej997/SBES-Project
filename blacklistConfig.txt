@@ -1,0 +1,4 @@
+Admins-*-*
+Jadnici-(1204)-(FTP)-//"comment:client can't open paint"
+Umetnici-(12008)-(UDP)-//"comment:client can't open notepad"
+Genijalci-(8636)-(TCP)-//"comment:client can't open oneDrive"
