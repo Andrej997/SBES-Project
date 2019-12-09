@@ -1,0 +1,3 @@
+Sifre za sve sertifikate su 1234
+prvo instalirati mamCA.cer na trusted roots
+onda instalirati WCFClient.pfx i WCFServer.pfx u Personal direktrorijum sa oznacenim "Mark key as exportable"
