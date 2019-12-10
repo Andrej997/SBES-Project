@@ -11,6 +11,6 @@ namespace Contracts
     public interface IWCFContract
     {
         [OperationContract]
-        void TestCommunication();
+        bool Connect();
     }
 }

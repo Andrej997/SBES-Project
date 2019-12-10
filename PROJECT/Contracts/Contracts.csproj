@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AesAlg.cs" />
     <Compile Include="IWCFContract.cs" />
+    <Compile Include="OpenAppData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecretKey.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
