@@ -34,9 +34,10 @@ namespace Contracts
 
             using (MemoryStream memStream = new MemoryStream())
             {
-                CryptoStream cryptoStream = new CryptoStream(memStream, aesEncrypt, CryptoStreamMode.Write);                
-                    cryptoStream.Write(toBeEncrypted, 0, toBeEncrypted.Length);
-                    encrypted = aesCrypto.IV.Concat(memStream.ToArray()).ToArray();
+                CryptoStream cryptoStream = new CryptoStream(memStream, aesEncrypt, CryptoStreamMode.Write);
+                
+                cryptoStream.Write(toBeEncrypted, 0, toBeEncrypted.Length);
+                encrypted = aesCrypto.IV.Concat(memStream.ToArray()).ToArray();
                 
             }
 

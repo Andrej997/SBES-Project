@@ -11,7 +11,7 @@ namespace ServiceManagement
 {
     public class WCFService : IWCFContract
     {
-        public string Connect(string key)
+        public string Connect()
         {
             IIdentity identity = Thread.CurrentPrincipal.Identity;
             Console.WriteLine("Name: {0}", identity.Name);
@@ -27,7 +27,12 @@ namespace ServiceManagement
                 var name = sid.Translate(typeof(NTAccount));
                 Console.WriteLine("{0}", name.ToString());
             }
-            return "";           
+            return Program.secretKey;           
+        }
+
+        public void OpenApp(byte[] encrypted)
+        {
+            OpenAppData decryted = AesAlg.Decrypt(encrypted, "");
         }
     }
 }

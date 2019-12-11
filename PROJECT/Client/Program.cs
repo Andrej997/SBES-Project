@@ -8,11 +8,15 @@ using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
+using System.Diagnostics;
+using System.IO.Ports;
 
 namespace Client
 {
     class Program
     {
+        public static string secretKey;
 
         static void Main(string[] args)
         {
@@ -28,8 +32,7 @@ namespace Client
 
             using (WCFClient proxy = new WCFClient(binding, endpointAddress))
             {
-
-                proxy.Connect("");
+                secretKey = proxy.Connect();
             }
 
             #region AES ENKRIPCIJA DEKRIPCIJA TEST --- RADI KAO PODMAZANO
@@ -48,24 +51,6 @@ namespace Client
         }
 
 
-        private static void ChoseAppToOpen()
-        {
-            Console.WriteLine("Please chose one of the following apps to open:");
-            Console.WriteLine("\t1.Notepad");
-            Console.WriteLine("\t2.Paint");
-            Console.WriteLine("Press any other key to exit");
-            char key = Console.ReadKey().KeyChar;
-            
-
-            switch (key)
-            {
-                case '1':
-                    break;
-                case '2':
-                    break;
-                default:
-                    return;
-            }
-        }
+        
     }
 }

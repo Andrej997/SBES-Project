@@ -16,8 +16,17 @@ namespace ServiceManagement
 {
     class Program
     {
+        public static string secretKey;
         static void Main(string[] args)
         {
+            secretKey = SecretKey.GenerateKey();
+            //Process notePad = new Process();
+            //notePad.StartInfo.FileName = "mspaint.exe";
+            ////notePad.StartInfo.Arguments = "mytextfile.txt";
+            //notePad.Start();
+
+            /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
+			//string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
 
             /*
