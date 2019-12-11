@@ -1,5 +1,0 @@
-C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\Contracts\bin\Debug\Contracts.dll
-C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\Contracts\bin\Debug\Contracts.pdb
-C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\Contracts\obj\Debug\Contracts.csproj.CoreCompileInputs.cache
-C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\Contracts\obj\Debug\Contracts.dll
-C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\Contracts\obj\Debug\Contracts.pdb
