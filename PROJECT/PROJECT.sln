@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManagement", "ServiceManagement\ServiceManagement.csproj", "{23DC80F8-7271-4E05-9AE1-35A31DA6D7D8}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{9E74A76E-C015-4849-8A49-BBB158B51251}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit", "Audit\Audit.csproj", "{9F69B53A-AB3F-483C-B11D-7BF13140F064}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditContracts", "AuditContracts\AuditContracts.csproj", "{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{9F69B53A-AB3F-483C-B11D-7BF13140F064}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F69B53A-AB3F-483C-B11D-7BF13140F064}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F69B53A-AB3F-483C-B11D-7BF13140F064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
