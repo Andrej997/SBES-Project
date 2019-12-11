@@ -23,15 +23,12 @@ namespace Client
             factory = this.CreateChannel();
         }
 
-        public bool Connect()
+        public string Connect(string key)
         {
             try
             {
-                if(factory.Connect())
-                {
-                    Console.WriteLine("Communication with server established!");
-                }
-                return true;
+                factory.Connect("");
+                return "";
             }
             catch(FaultException e)
             {
@@ -41,7 +38,7 @@ namespace Client
             {
                 Console.WriteLine("[TestCommunication] ERROR = {0}", e.Message);
             }
-            return false;
+            return "";
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ServiceManagement
 {
     public class WCFService : IWCFContract
     {
-        public bool Connect()
+        public string Connect(string key)
         {
             IIdentity identity = Thread.CurrentPrincipal.Identity;
             Console.WriteLine("Name: {0}", identity.Name);
@@ -27,7 +27,7 @@ namespace ServiceManagement
                 var name = sid.Translate(typeof(NTAccount));
                 Console.WriteLine("{0}", name.ToString());
             }
-            return true;           
+            return "";           
         }
     }
 }

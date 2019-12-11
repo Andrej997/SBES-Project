@@ -13,6 +13,7 @@ namespace Client
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             //povezivanje na server koristeci windows autentifikaciju
@@ -27,11 +28,8 @@ namespace Client
 
             using (WCFClient proxy = new WCFClient(binding, endpointAddress))
             {
-                if(proxy.Connect())
-                {
-                    ChoseAppToOpen();
-                }
-                
+
+                proxy.Connect("");
             }
 
             #region AES ENKRIPCIJA DEKRIPCIJA TEST --- RADI KAO PODMAZANO
@@ -57,6 +55,7 @@ namespace Client
             Console.WriteLine("\t2.Paint");
             Console.WriteLine("Press any other key to exit");
             char key = Console.ReadKey().KeyChar;
+            
 
             switch (key)
             {

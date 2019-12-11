@@ -1,0 +1,12 @@
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Client.exe.config
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Client.exe
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Client.pdb
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Contracts.dll
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Manager.dll
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Contracts.pdb
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Manager.pdb
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\obj\Debug\Client.csprojAssemblyReference.cache
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\obj\Debug\Client.csproj.CopyComplete
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\obj\Debug\Client.exe
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\obj\Debug\Client.pdb

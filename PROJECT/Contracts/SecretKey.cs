@@ -15,7 +15,6 @@ namespace Contracts
             SymmetricAlgorithm algorithm = null;
 
             algorithm = AesCryptoServiceProvider.Create();
-
             return algorithm == null ? string.Empty : ASCIIEncoding.ASCII.GetString(algorithm.Key);
         }
 

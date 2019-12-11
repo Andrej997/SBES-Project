@@ -18,15 +18,9 @@ namespace ServiceManagement
     {
         static void Main(string[] args)
         {
-            //Process notePad = new Process();
-            //notePad.StartInfo.FileName = "mspaint.exe";
-            ////notePad.StartInfo.Arguments = "mytextfile.txt";
-            //notePad.Start();
-
-            /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
-			//string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
 
+            /*
             //Windows autentifikacija
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Mode = SecurityMode.Transport;
@@ -45,6 +39,7 @@ namespace ServiceManagement
             List<IAuthorizationPolicy> policies = new List<IAuthorizationPolicy>();
             policies.Add(new CustomAuthorizationPolicy());
             host.Authorization.ExternalAuthorizationPolicies = policies.AsReadOnly();
+            
 
             try
             {
@@ -60,7 +55,7 @@ namespace ServiceManagement
             finally
             {
                 host.Close();
-            }
+            }*/
         }
     }
 }

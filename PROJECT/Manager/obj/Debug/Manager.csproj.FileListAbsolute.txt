@@ -1,0 +1,8 @@
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\bin\Debug\Manager.dll
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\bin\Debug\Manager.pdb
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\obj\Debug\Manager.csprojAssemblyReference.cache
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\obj\Debug\Manager.RoleConfigFile.resources
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\obj\Debug\Manager.csproj.GenerateResource.cache
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\obj\Debug\Manager.csproj.CoreCompileInputs.cache
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\obj\Debug\Manager.dll
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Manager\obj\Debug\Manager.pdb
