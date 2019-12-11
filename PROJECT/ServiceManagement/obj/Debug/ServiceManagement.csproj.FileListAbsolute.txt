@@ -1,0 +1,12 @@
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\bin\Debug\ServiceManagement.exe.config
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\bin\Debug\ServiceManagement.exe
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\bin\Debug\ServiceManagement.pdb
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\bin\Debug\Contracts.dll
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\bin\Debug\Manager.dll
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\bin\Debug\Contracts.pdb
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\bin\Debug\Manager.pdb
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\obj\Debug\ServiceManagement.csprojAssemblyReference.cache
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\obj\Debug\ServiceManagement.csproj.CoreCompileInputs.cache
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\obj\Debug\ServiceManagement.csproj.CopyComplete
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\obj\Debug\ServiceManagement.exe
+C:\Users\marko\OneDrive\Desktop\projekat\SBES-Project\PROJECT\ServiceManagement\obj\Debug\ServiceManagement.pdb

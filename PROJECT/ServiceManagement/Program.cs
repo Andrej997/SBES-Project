@@ -11,6 +11,8 @@ using System.Diagnostics;
 using Manager;
 using System.ServiceModel.Description;
 using System.IdentityModel.Policy;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace ServiceManagement
 {
@@ -26,6 +28,30 @@ namespace ServiceManagement
             /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
 			//string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
+            //*****
+
+            CreateBlacklist blacklist = new CreateBlacklist();
+
+            string checksum = checkMD5("Blacklist.xml");
+
+            byte[] ba = Encoding.Default.GetBytes(checksum); //ako hocemo hex zapis
+            string hexString = BitConverter.ToString(ba);   //primer: 9B-B0-0A-05-D2-12-D0-FD-EE-85-36-86-0C-15-43-99
+
+            writeInTxt(hexString);
+
+            string newChecksum = readChecksum(); //treba ubaciti gde god proveravamo integritet blacklist-e
+
+            if(hexString == newChecksum)
+            {
+                Console.WriteLine("Nije bilo izmena . . . ");
+            }
+            else
+            {
+                Console.WriteLine("Doslo je do izmena !!! ");
+            }
+
+
+            //*****
 
             //Windows autentifikacija
             NetTcpBinding binding = new NetTcpBinding();
@@ -62,5 +88,48 @@ namespace ServiceManagement
                 host.Close();
             }
         }
+
+        public static string checkMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    return Encoding.Default.GetString(md5.ComputeHash(stream));
+                }
+            }
+        }
+
+        public static void writeInTxt(string checksum)
+        {
+            using (StreamWriter writer = new StreamWriter("Checksum.txt"))
+            {
+                writer.Write(checksum);
+                //writer.Write("\n");
+                //writer.WriteLine();
+            }
+        }
+        public static string readChecksum()
+        {
+            string newChecksum = "";
+            string pom = "";
+
+            using(StreamReader reader = new StreamReader("Checksum.txt"))
+            {
+                while((pom = reader.ReadLine()) != null)
+                {
+                    newChecksum += pom;
+                    //if(pom == null)
+                    //{
+                    //    newChecksum += "\n";
+                    //}
+                }
+                //newChecksum += "\n";
+            }
+            return newChecksum;
+        }
+
+        
+
     }
 }
