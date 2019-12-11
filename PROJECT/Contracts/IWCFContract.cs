@@ -11,6 +11,9 @@ namespace Contracts
     public interface IWCFContract
     {
         [OperationContract]
-        bool Connect();
+        string Connect();
+
+        [OperationContract]
+        void OpenApp(byte[] encrypted);
     }
 }

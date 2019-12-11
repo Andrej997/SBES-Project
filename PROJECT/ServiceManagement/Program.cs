@@ -16,8 +16,10 @@ namespace ServiceManagement
 {
     class Program
     {
+        public static string secretKey;
         static void Main(string[] args)
         {
+            secretKey = SecretKey.GenerateKey();
             //Process notePad = new Process();
             //notePad.StartInfo.FileName = "mspaint.exe";
             ////notePad.StartInfo.Arguments = "mytextfile.txt";
