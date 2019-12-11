@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit", "Audit\Audit.csproj", "{9F69B53A-AB3F-483C-B11D-7BF13140F064}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditContracts", "AuditContracts\AuditContracts.csproj", "{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9F69B53A-AB3F-483C-B11D-7BF13140F064}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F69B53A-AB3F-483C-B11D-7BF13140F064}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F69B53A-AB3F-483C-B11D-7BF13140F064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF21DD5-051E-43BE-A6A9-372EA095EE0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
