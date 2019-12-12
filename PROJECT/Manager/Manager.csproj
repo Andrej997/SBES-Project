@@ -43,8 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CertManager.cs" />
-    <Compile Include="AuditCertValidator.cs" />
     <Compile Include="CustomAuthorizationManager.cs" />
     <Compile Include="CustomAuthorizationPolicy.cs" />
     <Compile Include="CustomPrincipal.cs" />
@@ -56,7 +54,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RoleConfigFile.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServiceCertValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="RoleConfigFile.resx">

@@ -49,11 +49,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WCFService.cs" />
+    <Compile Include="WCFServiceAudit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuditContracts\AuditContracts.csproj">
+      <Project>{8df21dd5-051e-43be-a6a9-372ea095ee0d}</Project>
+      <Name>AuditContracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contracts\Contracts.csproj">
       <Project>{e8e11147-cbd8-463c-bdfc-a4e3c94a195e}</Project>
       <Name>Contracts</Name>

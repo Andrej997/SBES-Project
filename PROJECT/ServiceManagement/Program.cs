@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using Contracts;
 using System.ServiceModel.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
-using System.Diagnostics;
 using Manager;
 using System.ServiceModel.Description;
 using System.IdentityModel.Policy;
 using System.Security.Cryptography;
 using System.IO;
+using AuditContracts;
 
 namespace ServiceManagement
 {
@@ -21,15 +20,58 @@ namespace ServiceManagement
         public static string secretKey;
         static void Main(string[] args)
         {
+            // Certificate connection with Audit
+            string srvCertCN = AuditFormatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            NetTcpBinding bindingAudit 
+                = new NetTcpBinding();
+            bindingAudit.Security.Transport.ClientCredentialType
+                = TcpClientCredentialType.Certificate;
+            string addressForAudit = "net.tcp://localhost:9999/Receiver";
+            ServiceHost hostForAudit 
+                = new ServiceHost(typeof(WCFServiceAudit));
+            hostForAudit.AddServiceEndpoint(typeof(IWCFAudit), bindingAudit, addressForAudit);
+            hostForAudit.Credentials.ClientCertificate.Authentication.CertificateValidationMode 
+                = X509CertificateValidationMode.PeerTrust;
+            hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator 
+                = new AuditServiceCertValidator();
+            hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode 
+                = X509RevocationMode.NoCheck;
+            hostForAudit.Credentials.ServiceCertificate.Certificate
+                = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+
+            System.Security.SecureString ss = new System.Security.SecureString();
+            ss.AppendChar('1');
+            ss.AppendChar('2');
+            ss.AppendChar('3');
+            ss.AppendChar('4');
+
+            hostForAudit.Credentials.ServiceCertificate.Certificate
+                = AuditCertManager.GetCertificateFromFile(@"D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\certifikati\WCFService.pfx", ss);
+
+            try
+            {
+                hostForAudit.Open();
+                Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[ERROR] {0}", e.Message);
+                Console.WriteLine("[StackTrace] {0}", e.StackTrace);
+            }
+            finally
+            {
+                hostForAudit.Close();
+            }
+
+
+
             secretKey = SecretKey.GenerateKey();
             //Process notePad = new Process();
             //notePad.StartInfo.FileName = "mspaint.exe";
             ////notePad.StartInfo.Arguments = "mytextfile.txt";
             //notePad.Start();
-
-            /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
-			//string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-
+            
             //*****
 
             Blacklist blacklist = new Blacklist();

@@ -45,7 +45,8 @@
   <ItemGroup>
     <Compile Include="AuditCertManager.cs" />
     <Compile Include="AuditCertValidator.cs" />
-    <Compile Include="Formatter.cs" />
+    <Compile Include="AuditServiceCertValidator.cs" />
+    <Compile Include="AuditFormatter.cs" />
     <Compile Include="IWCFAudit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

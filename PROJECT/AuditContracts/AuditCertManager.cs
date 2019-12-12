@@ -46,7 +46,6 @@ namespace AuditContracts
         {
             X509Certificate2 certificate = null;
 
-
             return certificate;
         }
 
@@ -58,8 +57,9 @@ namespace AuditContracts
         /// <returns>The requested certificate. If no valid certificate is found, returns null.</returns>
 		public static X509Certificate2 GetCertificateFromFile(string fileName, SecureString pwd)
         {
-            X509Certificate2 certificate = null;
+            X509Certificate2 certificate = new X509Certificate2();
 
+            certificate.Import(fileName, pwd, X509KeyStorageFlags.Exportable);
 
             return certificate;
         }

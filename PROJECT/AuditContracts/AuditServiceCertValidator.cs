@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.IdentityModel.Selectors;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Manager
+namespace AuditContracts
 {
-    public class ServiceCertValidator : X509CertificateValidator
+    public class AuditServiceCertValidator : X509CertificateValidator
     {
         /// <summary>
         /// Implementation of a custom certificate validation on the service side.
@@ -20,7 +20,7 @@ namespace Manager
         public override void Validate(X509Certificate2 certificate)
         {
             /// This will take service's certificate from storage
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
+            X509Certificate2 srvCert = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, AuditFormatter.ParseName(WindowsIdentity.GetCurrent().Name));
 
             if (!certificate.Issuer.Equals(srvCert.Issuer))
             {
