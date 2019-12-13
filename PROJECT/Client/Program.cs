@@ -20,6 +20,7 @@ namespace Client
 
         static void Main(string[] args)
         {
+            Console.ReadLine();
             //povezivanje na server koristeci windows autentifikaciju
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/Receiver";
@@ -34,7 +35,7 @@ namespace Client
             {
                 secretKey = proxy.Connect();
             }
-
+            Console.ReadLine();
             #region AES ENKRIPCIJA DEKRIPCIJA TEST --- RADI KAO PODMAZANO
             /*OpenAppData o = new OpenAppData("MASINA", 112, "TNT");
 
