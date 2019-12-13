@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AuditContracts
 {
-    public class Formatter
+    public class AuditFormatter
     {
         public static string ParseName(string winLogonName)
         {

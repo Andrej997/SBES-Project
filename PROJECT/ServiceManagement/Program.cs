@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using Contracts;
 using System.ServiceModel.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
-using System.Diagnostics;
 using Manager;
 using System.ServiceModel.Description;
 using System.IdentityModel.Policy;
 using System.Security.Cryptography;
 using System.IO;
+using AuditContracts;
+using System.Threading;
 
 namespace ServiceManagement
 {
@@ -21,15 +21,35 @@ namespace ServiceManagement
         public static string secretKey;
         static void Main(string[] args)
         {
+            /// Define the expected service certificate. It is required to establish cmmunication using certificates.
+            string srvCertCN = "wcfservice";
+
+            NetTcpBinding bindingAudit = new NetTcpBinding();
+            bindingAudit.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            
+
+            /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
+            X509Certificate2 srvCert = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            EndpointAddress addressForAudit = new EndpointAddress(new Uri("net.tcp://localhost:12874/RecieverAudit"),
+                                      new X509CertificateEndpointIdentity(srvCert));
+
+            using (WCFServiceAudit proxy = new WCFServiceAudit(bindingAudit, addressForAudit))
+            {
+                /// 1. Communication test
+                Console.WriteLine("proxy " + proxy.ConnectS("Audit message"));
+                Console.WriteLine("Connection() established. Press <enter> to continue ...");
+                Console.ReadLine();
+                
+
+            }
+
+
             secretKey = SecretKey.GenerateKey();
             //Process notePad = new Process();
             //notePad.StartInfo.FileName = "mspaint.exe";
             ////notePad.StartInfo.Arguments = "mytextfile.txt";
             //notePad.Start();
-
-            /// srvCertCN.SubjectName should be set to the service's username. .NET WindowsIdentity class provides information about Windows user running the given process
-			//string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-
+            
             //*****
 
             Blacklist blacklist = new Blacklist();
