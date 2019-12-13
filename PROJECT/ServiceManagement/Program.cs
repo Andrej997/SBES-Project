@@ -12,6 +12,7 @@ using System.IdentityModel.Policy;
 using System.Security.Cryptography;
 using System.IO;
 using AuditContracts;
+using System.Threading;
 
 namespace ServiceManagement
 {
@@ -20,50 +21,26 @@ namespace ServiceManagement
         public static string secretKey;
         static void Main(string[] args)
         {
-            // Certificate connection with Audit
-            string srvCertCN = AuditFormatter.ParseName(WindowsIdentity.GetCurrent().Name);
-            NetTcpBinding bindingAudit 
-                = new NetTcpBinding();
-            bindingAudit.Security.Transport.ClientCredentialType
-                = TcpClientCredentialType.Certificate;
-            string addressForAudit = "net.tcp://localhost:9999/Receiver";
-            ServiceHost hostForAudit 
-                = new ServiceHost(typeof(WCFServiceAudit));
-            hostForAudit.AddServiceEndpoint(typeof(IWCFAudit), bindingAudit, addressForAudit);
-            hostForAudit.Credentials.ClientCertificate.Authentication.CertificateValidationMode 
-                = X509CertificateValidationMode.PeerTrust;
-            hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator 
-                = new AuditServiceCertValidator();
-            hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode 
-                = X509RevocationMode.NoCheck;
-            hostForAudit.Credentials.ServiceCertificate.Certificate
-                = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            /// Define the expected service certificate. It is required to establish cmmunication using certificates.
+            string srvCertCN = "wcfservice";
 
-            System.Security.SecureString ss = new System.Security.SecureString();
-            ss.AppendChar('1');
-            ss.AppendChar('2');
-            ss.AppendChar('3');
-            ss.AppendChar('4');
+            NetTcpBinding bindingAudit = new NetTcpBinding();
+            bindingAudit.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            hostForAudit.Credentials.ServiceCertificate.Certificate
-                = AuditCertManager.GetCertificateFromFile(@"D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\certifikati\WCFService.pfx", ss);
+            /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
+            X509Certificate2 srvCert = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            EndpointAddress addressForAudit = new EndpointAddress(new Uri("net.tcp://localhost:12874/RecieverAudit"),
+                                      new X509CertificateEndpointIdentity(srvCert));
 
-            try
+            using (WCFServiceAudit proxy = new WCFServiceAudit(bindingAudit, addressForAudit))
             {
-                hostForAudit.Open();
-                Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
+                /// 1. Communication test
+                Console.WriteLine("proxy " + proxy.ConnectS("Audit message"));
+                Console.WriteLine("Connection() established. Press <enter> to continue ...");
                 Console.ReadLine();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("[ERROR] {0}", e.Message);
-                Console.WriteLine("[StackTrace] {0}", e.StackTrace);
-            }
-            finally
-            {
-                hostForAudit.Close();
-            }
+                
 
+            }
 
 
             secretKey = SecretKey.GenerateKey();

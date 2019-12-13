@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Black-list><restriction1 group="Jadnici" port="5214" protocol="UDP" /><restriction2 group="Umetnici" port="12045" protocol="FTP" /><restriction3 group="Genijalci" port="8624" protocol="TCP" /></Black-list>

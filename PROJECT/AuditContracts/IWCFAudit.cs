@@ -11,6 +11,6 @@ namespace AuditContracts
     public interface IWCFAudit
     {
         [OperationContract]
-        void Connect(string msg);
+        string ConnectS(string msg);
     }
 }
