@@ -14,6 +14,6 @@ namespace Contracts
         string Connect();
 
         [OperationContract]
-        void OpenApp(byte[] encrypted);
+        bool OpenApp(byte[] encrypted);
     }
 }
