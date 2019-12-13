@@ -26,6 +26,7 @@ namespace ServiceManagement
 
             NetTcpBinding bindingAudit = new NetTcpBinding();
             bindingAudit.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            
 
             /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
             X509Certificate2 srvCert = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
