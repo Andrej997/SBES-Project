@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
@@ -16,6 +17,7 @@ namespace ServiceManagement
         //private static Dictionary<string, Dictionary<int, string>> servisi = new Dictionary<string, Dictionary<int, string>>();
         //Dictionary<port+protokol, serviceHost>
         private static Dictionary<string, ServiceHost> servisi = new Dictionary<string, ServiceHost>();
+
         
         public string Connect()
         {
@@ -36,13 +38,23 @@ namespace ServiceManagement
             return Program.secretKey;           
         }
 
-        public bool OpenApp(byte[] encrypted)
+        [PrincipalPermission(SecurityAction.Demand, Role = "RunService")]
+        public PovratnaVrijednost OpenApp(byte[] encrypted)
         {
             OpenAppData decryted = AesAlg.Decrypt(encrypted, Program.secretKey);
 
-            if(servisi.ContainsKey(string.Format("{0}{1}", decryted.Port, decryted.Protokol)))
+            /*if(BlackList logic)
             {
-                return false;
+                string pov = WCFServiceAudit.factory.ConnectS();
+                if(pov == "DOS")
+                    return PovratnaVrijednost.DOS;
+                return PovratnaVrijednost.NEMADOZ;;
+            }*/
+
+
+            if (servisi.ContainsKey(string.Format("{0}", decryted.Port)))
+            {
+                return PovratnaVrijednost.VECOTV;
             }
 
             ServiceHost host = new ServiceHost(typeof(WCFService));
@@ -66,10 +78,33 @@ namespace ServiceManagement
                 host.AddServiceEndpoint(typeof(IWCFContract), binding, addr);
             }
 
-            string key = String.Format("{0}{1}", decryted.Port, decryted.ImeMasine);
+            string key = String.Format("{0}", decryted.Port);
             servisi.Add(key, host);
             servisi[key].Open();
-            return true;
+            return PovratnaVrijednost.USPJEH;
+        }
+
+        [PrincipalPermission(SecurityAction.Demand, Role = "RunService")]
+        public PovratnaVrijednost CloseApp(byte[] encrypted)
+        {
+            /*if(BlackList logic)
+            {
+                string pov = WCFServiceAudit.factory.ConnectS();
+                if(pov == "DOS")
+                    return PovratnaVrijednost.DOS;
+                return PovratnaVrijednost.NEMADOZ;
+            }*/
+
+            OpenAppData decryted = AesAlg.Decrypt(encrypted, Program.secretKey);
+            string key = string.Format("{0}", decryted.Port);
+            if (servisi.ContainsKey(key))
+            {
+                servisi[key].Close();
+                return PovratnaVrijednost.USPJEH;
+            }
+
+            
+            return PovratnaVrijednost.NIJEOTV;
         }
     }
 }
