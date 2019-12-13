@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace Contracts
 {
+    public enum PovratnaVrijednost
+    {
+        USPJEH = 0,
+        VECOTV = 1,
+        NEMADOZ = 2,
+        DOS = 3,
+        NIJEOTV = 4
+    }
     [ServiceContract]
     public interface IWCFContract
     {
@@ -14,6 +22,9 @@ namespace Contracts
         string Connect();
 
         [OperationContract]
-        void OpenApp(byte[] encrypted);
+        PovratnaVrijednost OpenApp(byte[] encrypted);
+
+        [OperationContract]
+        PovratnaVrijednost CloseApp(byte[] encrypted);
     }
 }

@@ -15,6 +15,7 @@ namespace Audit
 {
     class Program
     {
+        public static List<MessageFromSM> list;
         static void Main(string[] args)
         {
             // Certificate connection with Audit
@@ -35,20 +36,24 @@ namespace Audit
                 = X509RevocationMode.NoCheck;
             hostForAudit.Credentials.ServiceCertificate.Certificate
                 = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
-
-            System.Security.SecureString ss = new System.Security.SecureString();
-            ss.AppendChar('1');
-            ss.AppendChar('2');
-            ss.AppendChar('3');
-            ss.AppendChar('4');
-
+            
+            
             //hostForAudit.Credentials.ServiceCertificate.Certificate
             //    = AuditCertManager.GetCertificateFromFile(@"D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\certifikati\WCFService.pfx", ss);
-
+            string dosMsg = "";
             try
             {
                 hostForAudit.Open();
                 Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
+                /*
+                list = new List<MessageFromSM>();
+                for (int i = 0; i < 11; i++)
+                {
+                    proxy = new WCFAudit();
+                    dosMsg = proxy.ConnectS("Client|Protocol|5142");
+                    Console.WriteLine(dosMsg);
+                }*/
+
                 Console.ReadLine();
             }
             catch (Exception e)

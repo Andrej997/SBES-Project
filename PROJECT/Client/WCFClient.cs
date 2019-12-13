@@ -10,6 +10,7 @@ using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Security;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace Client
 {
@@ -18,17 +19,18 @@ namespace Client
     {
         private static IWCFContract factory;
         private static string secretKey;
-        private static string firstMacAddress = NetworkInterface
-               .GetAllNetworkInterfaces()
-               .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-               .Select(nic => nic.GetPhysicalAddress().ToString())
-               .FirstOrDefault();
+        private static string machineName = System.Environment.MachineName;
 
         public WCFClient(NetTcpBinding binding, EndpointAddress address)
             : base(binding, address)
         {
             this.Credentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
             factory = this.CreateChannel();
+        }
+
+        public PovratnaVrijednost CloseApp(byte[] encrypted)
+        {
+            throw new NotImplementedException();
         }
 
         public string Connect()
@@ -51,40 +53,120 @@ namespace Client
             return "";
         }
 
-        public void OpenApp(byte[] encrypted)
+        public PovratnaVrijednost OpenApp(byte[] encrypted)
         {
             throw new NotImplementedException();
         }
 
         private void ChoseAppToOpen()
         {
+            int port;
+            string protokol;
 
             while (true)
             {
 
-                Console.WriteLine("Please chose one of the following apps to open:");
-                Console.WriteLine("\t1.Notepad");
-                Console.WriteLine("\t2.Paint");
+                Console.WriteLine("Please chose one of the following actions");
+                Console.WriteLine("\t1.Open service");
+                Console.WriteLine("\t2.Close service");
+                Console.WriteLine("\t3.Check blacklist cache");
+                Console.WriteLine("\t4.Exit");
                 Console.WriteLine("Press any other key to exit");
                 char key = Console.ReadKey().KeyChar;
 
                 switch (key)
                 {
                     case '1':
-                        OpenAppData notepad = new OpenAppData(firstMacAddress, 12045, "FTP");
-                        byte[] encryptedNotepad = AesAlg.Encrypt(notepad, secretKey);
-                        factory.OpenApp(encryptedNotepad);
+                        Console.WriteLine("Enter port number:");
+                        if(Int32.TryParse(Console.ReadLine(), out port))
+                        {
+                            protokol = ChoseProto();
+                            OpenAppData openAppData = new OpenAppData(machineName, port, protokol);
+                            PovratnaVrijednost pov = factory.OpenApp(AesAlg.Encrypt(openAppData, secretKey));
+                            if(pov == PovratnaVrijednost.USPJEH)
+                            {
+                                Console.WriteLine("Uspjesno ste otvorili servis!");
+                            }
+                            else if(pov == PovratnaVrijednost.VECOTV)
+                            {
+                                Console.WriteLine("Servis je vec otvoren!");
+                            }
+                            else if(pov == PovratnaVrijednost.NEMADOZ)
+                            {
+                                Console.WriteLine("Nemate dozvolu da otvorite aplikaciju!");
+                            }
+                            else if(pov == PovratnaVrijednost.DOS)
+                            {
+                                Console.WriteLine("Previse puta ste pokusali da pokrenete nedozvoljeni proces!");
+                                Thread.Sleep(1000);
+                                return;
+                            }
+                        }                        
                         break;
                     case '2':
-                        OpenAppData paint = new OpenAppData(firstMacAddress, 5214, "UDP");
-                        byte[] encryptedPaint = AesAlg.Encrypt(paint, secretKey);
-                        factory.OpenApp(encryptedPaint);
+                        Console.WriteLine("Enter port number:");
+                        if (Int32.TryParse(Console.ReadLine(), out port))
+                        {
+                            protokol = ChoseProto();
+                            OpenAppData openAppData = new OpenAppData(machineName, port, protokol);
+                            PovratnaVrijednost pov =  factory.CloseApp(AesAlg.Encrypt(openAppData, secretKey));
+                            if (pov == PovratnaVrijednost.USPJEH)
+                            {
+                                Console.WriteLine("Uspjesno ste zatvorili servis!");
+                            }
+                            else if (pov == PovratnaVrijednost.NIJEOTV)
+                            {
+                                Console.WriteLine("Servis ne postoji!");
+                            }
+                            else if (pov == PovratnaVrijednost.NEMADOZ)
+                            {
+                                Console.WriteLine("Nemate dozvolu da zatvorite aplikaciju!");
+                            }
+                            else if (pov == PovratnaVrijednost.DOS)
+                            {
+                                Console.WriteLine("Previse puta ste pokusali da pokrenete nedozvoljeni proces!");
+                                Thread.Sleep(1000);
+                                return;
+                            }
+                        }
+
                         break;
-                    default:
+                    case '4':
                         return;
+                    default:
+                        Console.WriteLine("Choose one of given options!");
+                        break;
                 }
             }
 
+        }
+
+
+        private string ChoseProto()
+        {
+            Console.WriteLine("Chose one of following protocols:");
+            Console.WriteLine("\t1.UDP");
+            Console.WriteLine("\t2.HTTP");
+            Console.WriteLine("\t3.TCP");
+
+            while(true)
+            {
+                char key = Console.ReadKey().KeyChar;
+
+                switch (key)
+                {
+                    case '1':
+                        return "UDP";
+                    case '2':
+                        return "HTTP";
+                    case '3':
+                        return "TCP";
+                    default:
+                        Console.WriteLine("Chose one of the given numbers");
+                        break;
+                }
+            }
+            
         }
     }
 }

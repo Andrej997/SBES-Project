@@ -12,7 +12,9 @@ namespace ServiceManagement
 {
     public class WCFServiceAudit : ChannelFactory<IWCFAudit>, IWCFAudit, IDisposable
     {
-        IWCFAudit factory;
+        public static IWCFAudit factory = null;
+
+       
 
         public WCFServiceAudit(NetTcpBinding binding, EndpointAddress address)
             : base(binding, address)
@@ -44,7 +46,7 @@ namespace ServiceManagement
         {
             try
             {
-                Console.WriteLine("factory " + factory.ConnectS(msg));
+               // Console.WriteLine("factory " + factory.ConnectS(msg));
                 return msg;
             }
             catch (Exception e)

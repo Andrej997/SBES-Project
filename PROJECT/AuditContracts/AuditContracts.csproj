@@ -48,6 +48,7 @@
     <Compile Include="AuditServiceCertValidator.cs" />
     <Compile Include="AuditFormatter.cs" />
     <Compile Include="IWCFAudit.cs" />
+    <Compile Include="MessageFromSM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
