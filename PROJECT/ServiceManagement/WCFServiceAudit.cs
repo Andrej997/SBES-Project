@@ -46,7 +46,7 @@ namespace ServiceManagement
         {
             try
             {
-                Console.WriteLine("factory " + factory.ConnectS(msg));
+               // Console.WriteLine("factory " + factory.ConnectS(msg));
                 return msg;
             }
             catch (Exception e)

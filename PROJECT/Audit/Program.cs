@@ -16,7 +16,6 @@ namespace Audit
     class Program
     {
         public static List<MessageFromSM> list;
-        public static IWCFAudit proxy;
         static void Main(string[] args)
         {
             // Certificate connection with Audit
@@ -46,14 +45,14 @@ namespace Audit
             {
                 hostForAudit.Open();
                 Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
-                
+                /*
                 list = new List<MessageFromSM>();
                 for (int i = 0; i < 11; i++)
                 {
                     proxy = new WCFAudit();
                     dosMsg = proxy.ConnectS("Client|Protocol|5142");
                     Console.WriteLine(dosMsg);
-                }
+                }*/
 
                 Console.ReadLine();
             }
