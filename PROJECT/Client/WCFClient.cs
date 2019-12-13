@@ -10,6 +10,7 @@ using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Security;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace Client
 {
@@ -25,6 +26,11 @@ namespace Client
         {
             this.Credentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
             factory = this.CreateChannel();
+        }
+
+        public PovratnaVrijednost CloseApp(byte[] encrypted)
+        {
+            throw new NotImplementedException();
         }
 
         public string Connect()
@@ -47,7 +53,7 @@ namespace Client
             return "";
         }
 
-        public bool OpenApp(byte[] encrypted)
+        public PovratnaVrijednost OpenApp(byte[] encrypted)
         {
             throw new NotImplementedException();
         }
@@ -76,12 +82,54 @@ namespace Client
                         {
                             protokol = ChoseProto();
                             OpenAppData openAppData = new OpenAppData(machineName, port, protokol);
+                            PovratnaVrijednost pov = factory.OpenApp(AesAlg.Encrypt(openAppData, secretKey));
+                            if(pov == PovratnaVrijednost.USPJEH)
+                            {
+                                Console.WriteLine("Uspjesno ste otvorili servis!");
+                            }
+                            else if(pov == PovratnaVrijednost.VECOTV)
+                            {
+                                Console.WriteLine("Servis je vec otvoren!");
+                            }
+                            else if(pov == PovratnaVrijednost.NEMADOZ)
+                            {
+                                Console.WriteLine("Nemate dozvolu da otvorite aplikaciju!");
+                            }
+                            else if(pov == PovratnaVrijednost.DOS)
+                            {
+                                Console.WriteLine("Previse puta ste pokusali da pokrenete nedozvoljeni proces!");
+                                Thread.Sleep(1000);
+                                return;
+                            }
                         }                        
                         break;
                     case '2':
-                        /*OpenAppData paint = new OpenAppData(machineName, 5214, "UDP");
-                        byte[] encryptedPaint = AesAlg.Encrypt(paint, secretKey);
-                        factory.OpenApp(encryptedPaint);*/
+                        Console.WriteLine("Enter port number:");
+                        if (Int32.TryParse(Console.ReadLine(), out port))
+                        {
+                            protokol = ChoseProto();
+                            OpenAppData openAppData = new OpenAppData(machineName, port, protokol);
+                            PovratnaVrijednost pov =  factory.CloseApp(AesAlg.Encrypt(openAppData, secretKey));
+                            if (pov == PovratnaVrijednost.USPJEH)
+                            {
+                                Console.WriteLine("Uspjesno ste zatvorili servis!");
+                            }
+                            else if (pov == PovratnaVrijednost.NIJEOTV)
+                            {
+                                Console.WriteLine("Servis ne postoji!");
+                            }
+                            else if (pov == PovratnaVrijednost.NEMADOZ)
+                            {
+                                Console.WriteLine("Nemate dozvolu da zatvorite aplikaciju!");
+                            }
+                            else if (pov == PovratnaVrijednost.DOS)
+                            {
+                                Console.WriteLine("Previse puta ste pokusali da pokrenete nedozvoljeni proces!");
+                                Thread.Sleep(1000);
+                                return;
+                            }
+                        }
+
                         break;
                     case '4':
                         return;
