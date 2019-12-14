@@ -23,10 +23,10 @@ namespace Client
             //povezivanje na server koristeci windows autentifikaciju
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/Receiver";
-
             binding.Security.Mode = SecurityMode.Transport;
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
             binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+            
             
             EndpointAddress endpointAddress = new EndpointAddress(new Uri(address));
 

@@ -82,7 +82,8 @@ namespace Client
                         {
                             protokol = ChoseProto();
                             OpenAppData openAppData = new OpenAppData(machineName, port, protokol);
-                            PovratnaVrijednost pov = factory.OpenApp(AesAlg.Encrypt(openAppData, secretKey));
+                            byte[] encrypted = AesAlg.Encrypt(openAppData, secretKey);
+                            PovratnaVrijednost pov = factory.OpenApp(encrypted);
                             if(pov == PovratnaVrijednost.USPJEH)
                             {
                                 Console.WriteLine("Uspjesno ste otvorili servis!");

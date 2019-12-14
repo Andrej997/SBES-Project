@@ -11,8 +11,9 @@ namespace Contracts
 {
     public class AesAlg
     {
-        public static byte[] Encrypt(OpenAppData zaSifrovanje, string secretKey)
+        public static byte[] Encrypt(OpenAppData zaSifrovanje1, string secretKey)
         {
+            string zaSifrovanje = zaSifrovanje1.ToString();
             byte[] toBeEncrypted = null;
             byte[] encrypted = null;
             
@@ -22,6 +23,8 @@ namespace Contracts
                 Mode = CipherMode.CBC,
                 Padding = PaddingMode.None
             };
+
+            
 
             aesCrypto.GenerateIV();
             ICryptoTransform aesEncrypt = aesCrypto.CreateEncryptor();
@@ -58,6 +61,8 @@ namespace Contracts
             aesCrypto.IV = zaDesifrovati.Take(aesCrypto.BlockSize / 8).ToArray();			
             ICryptoTransform aesDecrypt = aesCrypto.CreateDecryptor();
 
+            
+
             using (MemoryStream mStream = new MemoryStream(zaDesifrovati.Skip(aesCrypto.BlockSize / 8).ToArray()))
             {
                 using (CryptoStream cryptoStream = new CryptoStream(mStream, aesDecrypt, CryptoStreamMode.Read))
@@ -67,12 +72,20 @@ namespace Contracts
                 }
             }
 
-            BinaryFormatter bf = new BinaryFormatter();
+            string s = null;
+
             using (MemoryStream ms = new MemoryStream(decrypted))
             {
+                BinaryFormatter bf = new BinaryFormatter();
                 object obj = bf.Deserialize(ms);
-                return (OpenAppData)obj;
+
+                s = (string)obj;
             }
+
+            string[] lines = s.Split('/');
+
+            return new OpenAppData(lines[0], int.Parse(lines[1]), lines[2]);
         }
+
     }
 }
