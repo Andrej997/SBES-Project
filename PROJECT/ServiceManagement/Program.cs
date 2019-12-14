@@ -53,6 +53,7 @@ namespace ServiceManagement
             //*****
 
             Blacklist blacklist = new Blacklist();
+            blacklist.WriteInXml();
 
             string checksum = checkMD5("Blacklist.xml");
 
@@ -61,9 +62,15 @@ namespace ServiceManagement
 
             writeInTxt(hexString);
 
-            string newChecksum = readChecksum(); //treba ubaciti gde god proveravamo integritet blacklist-e
+            string hexValidChecksum = readChecksum(); //citamo checksum koja je validna
 
-            if (hexString == newChecksum)
+            //provera validnosti
+            string newChecksum = checkMD5("Blacklist.xml");
+            byte[] newC = Encoding.Default.GetBytes(newChecksum); 
+            string hexNewChecksum = BitConverter.ToString(newC);
+            
+
+            if (hexNewChecksum == hexValidChecksum)
             {
                 Console.WriteLine("Nije bilo izmena . . . ");
             }
@@ -71,7 +78,13 @@ namespace ServiceManagement
             {
                 Console.WriteLine("Doslo je do izmena !!! ");
             }
+            //****
 
+            List<Restriction> restrictionList = new List<Restriction>();
+
+            restrictionList = blacklist.ReadFromXml();
+
+            blacklist.WriteInXml(restrictionList);
 
             //*****
 
