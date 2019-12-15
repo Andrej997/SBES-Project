@@ -1,7 +1,10 @@
 ﻿using Contracts;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.ServiceModel;
@@ -107,4 +110,7 @@ namespace ServiceManagement
             return PovratnaVrijednost.NIJEOTV;
         }
     }
+
+
+
 }

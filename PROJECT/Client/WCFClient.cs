@@ -11,6 +11,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Security;
 using System.Net.NetworkInformation;
 using System.Threading;
+using System.Security.Cryptography;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Client
 {
@@ -169,5 +172,7 @@ namespace Client
             }
             
         }
+
+       
     }
 }

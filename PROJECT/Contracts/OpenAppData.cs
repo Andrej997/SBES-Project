@@ -28,7 +28,7 @@ namespace Contracts
 
         public override string ToString()
         {
-            return string.Format("{0}/{1}/{2}", ImeMasine, Port.ToString(), Protokol);
+            return string.Format("{0},{1},{2},dodatnistringkakobiproradiloovocudonadamsenijemijasnoidaljezastoneradi", Port.ToString(), Protokol, ImeMasine);
         }
 
         

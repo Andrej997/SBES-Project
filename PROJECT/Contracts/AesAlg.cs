@@ -24,23 +24,24 @@ namespace Contracts
                 Padding = PaddingMode.None
             };
 
-            
+            toBeEncrypted = Encoding.UTF8.GetBytes(zaSifrovanje);
 
             aesCrypto.GenerateIV();
             ICryptoTransform aesEncrypt = aesCrypto.CreateEncryptor();
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream memStream = new MemoryStream())
-            {
-                bf.Serialize(memStream, zaSifrovanje);
-                toBeEncrypted = memStream.ToArray();
-            }
 
             using (MemoryStream memStream = new MemoryStream())
             {
+                /* using(CryptoStream cs = new CryptoStream(memStream, aesEncrypt, CryptoStreamMode.Write))
+                 {
+                     using (StreamWriter sw = new StreamWriter(cs))
+                         sw.Write(zaSifrovanje);
+                     encrypted = memStream.ToArray();
+                 }*/
                 CryptoStream cryptoStream = new CryptoStream(memStream, aesEncrypt, CryptoStreamMode.Write);
                 
                 cryptoStream.Write(toBeEncrypted, 0, toBeEncrypted.Length);
                 encrypted = aesCrypto.IV.Concat(memStream.ToArray()).ToArray();
+                                   
                 
             }
 
@@ -72,19 +73,13 @@ namespace Contracts
                 }
             }
 
-            string s = null;
+            string s = Encoding.UTF8.GetString(decrypted);
 
-            using (MemoryStream ms = new MemoryStream(decrypted))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                object obj = bf.Deserialize(ms);
+            
 
-                s = (string)obj;
-            }
+            string[] lines = s.Split(',');
 
-            string[] lines = s.Split('/');
-
-            return new OpenAppData(lines[0], int.Parse(lines[1]), lines[2]);
+            return new OpenAppData(lines[2], int.Parse(lines[0]), lines[1]);
         }
 
     }
