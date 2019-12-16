@@ -20,12 +20,22 @@ namespace AuditContracts
         public override void Validate(X509Certificate2 certificate)
         {
             /// This will take service's certificate from storage
-            X509Certificate2 srvCert = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, AuditFormatter.ParseName(WindowsIdentity.GetCurrent().Name));
+            X509Certificate2 srvCert = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "wcfservice");
 
-            if (!certificate.Issuer.Equals(srvCert.Issuer))
+            try
             {
-                throw new Exception("Certificate is not from the valid issuer.");
+                if (!certificate.Issuer.Equals(srvCert.Issuer))
+                {
+                    throw new Exception("Certificate is not from the valid issuer.");
+                }
+
+                Console.WriteLine("Certificate valid");
             }
+            catch(Exception e)
+            {
+                Console.WriteLine("Cert validation error: " + e.Message);
+            }
+            
         }
     }
 }

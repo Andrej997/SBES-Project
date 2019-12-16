@@ -15,6 +15,8 @@ namespace Audit
         
         public string ConnectS(string msg)
         {
+            if (msg == "TryConnect")
+                return "Success!";
             if (Program.list == null)
             {
                 Program.list = new List<MessageFromSM>();

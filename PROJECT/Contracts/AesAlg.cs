@@ -11,9 +11,8 @@ namespace Contracts
 {
     public class AesAlg
     {
-        public static byte[] Encrypt(OpenAppData zaSifrovanje1, string secretKey)
+        public static byte[] Encrypt(string zaSifrovanje, string secretKey)
         {
-            string zaSifrovanje = zaSifrovanje1.ToString();
             byte[] toBeEncrypted = null;
             byte[] encrypted = null;
             

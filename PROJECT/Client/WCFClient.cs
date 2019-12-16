@@ -85,7 +85,7 @@ namespace Client
                         {
                             protokol = ChoseProto();
                             OpenAppData openAppData = new OpenAppData(machineName, port, protokol);
-                            byte[] encrypted = AesAlg.Encrypt(openAppData, secretKey);
+                            byte[] encrypted = AesAlg.Encrypt(openAppData.ToString(), secretKey);
                             PovratnaVrijednost pov = factory.OpenApp(encrypted);
                             if(pov == PovratnaVrijednost.USPJEH)
                             {
@@ -113,7 +113,7 @@ namespace Client
                         {
                             protokol = ChoseProto();
                             OpenAppData openAppData = new OpenAppData(machineName, port, protokol);
-                            PovratnaVrijednost pov =  factory.CloseApp(AesAlg.Encrypt(openAppData, secretKey));
+                            PovratnaVrijednost pov =  factory.CloseApp(AesAlg.Encrypt(openAppData.ToString(), secretKey));
                             if (pov == PovratnaVrijednost.USPJEH)
                             {
                                 Console.WriteLine("Uspjesno ste zatvorili servis!");

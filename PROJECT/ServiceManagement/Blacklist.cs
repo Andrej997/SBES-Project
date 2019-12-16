@@ -11,7 +11,7 @@ namespace ServiceManagement
     public class Blacklist
     {
 
-        public Blacklist()
+        /*public Blacklist()
         {
             //WriteInXml();
         }
@@ -290,7 +290,7 @@ namespace ServiceManagement
             //Console.ReadKey();
 
             return list;
-        }
+        }*/
 
     }
 

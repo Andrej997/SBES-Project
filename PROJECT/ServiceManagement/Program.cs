@@ -23,6 +23,12 @@ namespace ServiceManagement
         {
             /// Define the expected service certificate. It is required to establish cmmunication using certificates.
             string srvCertCN = "wcfservice";
+            secretKey = SecretKey.GenerateKey();
+            /*string checksum = checkMD5("BlackList.xml");
+            byte[] ba = Encoding.Default.GetBytes(checksum); //ako hocemo hex zapis
+            string hexString = BitConverter.ToString(ba);   //primer: 9B-B0-0A-05-D2-12-D0-FD-EE-85-36-86-0C-15-43-99
+            writeInTxt(hexString);*/
+
 
             NetTcpBinding bindingAudit = new NetTcpBinding();
             bindingAudit.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
@@ -30,21 +36,42 @@ namespace ServiceManagement
 
             /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
             X509Certificate2 srvCert = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
-            EndpointAddress addressForAudit = new EndpointAddress(new Uri("net.tcp://localhost:12874/RecieverAudit"),
+            EndpointAddress addressForAudit = new EndpointAddress(new Uri("net.tcp://localhost:8888/RecieverAudit"),
                                       new X509CertificateEndpointIdentity(srvCert));
 
             using (WCFServiceAudit proxy = new WCFServiceAudit(bindingAudit, addressForAudit))
             {
                 /// 1. Communication test
-                Console.WriteLine("proxy " + proxy.ConnectS("Audit message"));
-                Console.WriteLine("Connection() established. Press <enter> to continue ...");
-                Console.ReadLine();
-                
+                Console.WriteLine("proxy " + proxy.ConnectS("TryConnect"));
+                Console.WriteLine("Connection() established. Press <enter> to continue ...");                
 
             }
 
+            /*Restriction res = new Restriction();
+            res.UserOrGroup = "Jadnici";
+            res.Port = 5214;
+            res.Protocol = "UDP";
 
-            secretKey = SecretKey.GenerateKey();
+            Restriction res1 = new Restriction();
+            res1.UserOrGroup = "Jadnik";
+            res1.Port = 10000;
+            res1.Protocol = "HTTP";
+
+            Restriction res2 = new Restriction();
+            res2.UserOrGroup = "Genijalci";
+            res2.Port = 8624;
+            res2.Protocol = "TCP";
+
+            Restriction res3 = new Restriction();
+            res3.UserOrGroup = "Umetnici";
+            res3.Port = 13200;
+            res3.Protocol = "HTTP";
+
+            List<Restriction> ress = new List<Restriction>() { res, res1, res2, res3 };
+
+            Restriction.WriteBlackList(ress);*/
+
+            
             //Process notePad = new Process();
             //notePad.StartInfo.FileName = "mspaint.exe";
             ////notePad.StartInfo.Arguments = "mytextfile.txt";
@@ -52,7 +79,7 @@ namespace ServiceManagement
             
             //*****
 
-            Blacklist blacklist = new Blacklist();
+            /*Blacklist blacklist = new Blacklist();
             blacklist.WriteInXml();
 
             string checksum = checkMD5("Blacklist.xml");
@@ -86,7 +113,7 @@ namespace ServiceManagement
 
             blacklist.WriteInXml(restrictionList);
 
-            //*****
+            //******/
 
             //Windows autentifikacija
             NetTcpBinding binding = new NetTcpBinding();

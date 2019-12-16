@@ -20,22 +20,15 @@ namespace Audit
         {
             // Certificate connection with Audit
             string srvCertCN = "wcfservice";
-            NetTcpBinding bindingAudit
-                = new NetTcpBinding();
-            bindingAudit.Security.Transport.ClientCredentialType
-                = TcpClientCredentialType.Certificate;
-            string addressForAudit = "net.tcp://localhost:12874/RecieverAudit";
-            ServiceHost hostForAudit
-                = new ServiceHost(typeof(WCFAudit));
+            NetTcpBinding bindingAudit = new NetTcpBinding();
+            bindingAudit.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            string addressForAudit = "net.tcp://localhost:8888/RecieverAudit";
+            ServiceHost hostForAudit = new ServiceHost(typeof(WCFAudit));
             hostForAudit.AddServiceEndpoint(typeof(IWCFAudit), bindingAudit, addressForAudit);
-            hostForAudit.Credentials.ClientCertificate.Authentication.CertificateValidationMode
-                = X509CertificateValidationMode.PeerTrust;
-            hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator
-                = new AuditServiceCertValidator();
-            hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode
-                = X509RevocationMode.NoCheck;
-            hostForAudit.Credentials.ServiceCertificate.Certificate
-                = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            hostForAudit.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+            hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new AuditServiceCertValidator();
+            hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            hostForAudit.Credentials.ServiceCertificate.Certificate = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
             
             
             //hostForAudit.Credentials.ServiceCertificate.Certificate

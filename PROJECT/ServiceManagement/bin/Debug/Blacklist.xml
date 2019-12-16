@@ -1,1 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Black-list><restriction><user>Jadnik1, Jadnik2</user><group>Jadnici</group><port>5214</port><protocol>UDP</protocol></restriction><restriction><user>Umetnik1234</user><group>Umetnici</group><port>12045</port><protocol></protocol></restriction><restriction><user>GenijalacXD</user><group>Genijalci</group><port>8624</port><protocol>TCP, UDP</protocol></restriction></Black-list>
+<?xml version="1.0"?>
+<ArrayOfRestriction xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Restriction>
+    <UserOrGroup>Jadnici</UserOrGroup>
+    <Port>5214</Port>
+    <Protocol>UDP</Protocol>
+  </Restriction>
+  <Restriction>
+    <UserOrGroup>Jadnik</UserOrGroup>
+    <Port>10000</Port>
+    <Protocol>HTTP</Protocol>
+  </Restriction>
+  <Restriction>
+    <UserOrGroup>Genijalci</UserOrGroup>
+    <Port>8624</Port>
+    <Protocol>TCP</Protocol>
+  </Restriction>
+  <Restriction>
+    <UserOrGroup>Umetnici</UserOrGroup>
+    <Port>13200</Port>
+    <Protocol>HTTP</Protocol>
+  </Restriction>
+</ArrayOfRestriction>
