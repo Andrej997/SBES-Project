@@ -26,5 +26,14 @@ namespace Contracts
 
         [OperationContract]
         PovratnaVrijednost CloseApp(byte[] encrypted);
+
+        [OperationContract]
+        bool IsBlackListValid();
+
+        [OperationContract]
+        byte[] ReturnBlackList();
+
+        [OperationContract]
+        bool EditBlackList(byte[] crypted);
     }
 }

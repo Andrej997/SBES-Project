@@ -49,7 +49,6 @@
     <Compile Include="Blacklist.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Restriction.cs" />
     <Compile Include="WCFService.cs" />
     <Compile Include="WCFServiceAudit.cs" />
   </ItemGroup>

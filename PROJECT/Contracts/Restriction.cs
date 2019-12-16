@@ -1,5 +1,4 @@
-﻿using Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace ServiceManagement
+namespace Contracts
 {
     [Serializable]
     public class Restriction
@@ -51,17 +50,17 @@ namespace ServiceManagement
 
         public static bool IsRestricted(List<Restriction> blackList, OpenAppData data, string user, List<string> userGroups)
         {
-            foreach(Restriction res in blackList)
+            foreach (Restriction res in blackList)
             {
-                if(user == res.UserOrGroup)
+                if (user == res.UserOrGroup)
                 {
                     if (data.Port == res.Port || data.Protokol == res.Protocol)
                         return true;
                 }
 
-                foreach(string s in userGroups)
+                foreach (string s in userGroups)
                 {
-                    if(s == res.UserOrGroup)
+                    if (s == res.UserOrGroup)
                     {
                         if (data.Port == res.Port || data.Protokol == res.Protocol)
                             return true;
@@ -72,17 +71,17 @@ namespace ServiceManagement
             return false;
         }
 
-        public static string ToString(List<Restriction> blacklist)
+        public static string BlackListToString(List<Restriction> list)
         {
-            string s = "BlackList";
+            string returnS = "";
 
-            foreach(Restriction res in blacklist)
+            foreach (Restriction s in list)
             {
-                s += string.Format(",{0},{1},{2}", res.UserOrGroup, res.Port.ToString(), res.Protocol);
+                returnS += string.Format("{0},{1},{2},", s.UserOrGroup, s.Port, s.Protocol);
             }
 
-            return s;
+            returnS += "12345678312313212313213123";
+            return returnS;
         }
-
     }
 }

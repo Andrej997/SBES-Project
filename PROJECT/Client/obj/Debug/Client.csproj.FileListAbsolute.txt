@@ -1,2 +1,0 @@
-C:\Users\Mistra\Desktop\ZBES\PROJECT\Client\bin\Debug\Client.exe
-C:\Users\Mistra\Desktop\ZBES\PROJECT\Client\bin\Debug\Contracts.dll

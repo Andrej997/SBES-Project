@@ -23,7 +23,7 @@ namespace ServiceManagement
         private static Dictionary<string, ServiceHost> servisi = new Dictionary<string, ServiceHost>();
         private static List<Restriction> blackList;
 
-        
+        [PrincipalPermission(SecurityAction.Demand, Role = "ExchangeSessionKey")]
         public string Connect()
         {
             IIdentity identity = Thread.CurrentPrincipal.Identity;
@@ -144,6 +144,8 @@ namespace ServiceManagement
             return PovratnaVrijednost.NIJEOTV;
         }
 
+
+
         [PrincipalPermission(SecurityAction.Demand, Role = "ChangeConfiguration")]
         public bool IsBlackListValid()
         {
@@ -168,6 +170,38 @@ namespace ServiceManagement
             }
             
         }
+
+        [PrincipalPermission(SecurityAction.Demand, Role = "ChangeConfiguration")]
+        public byte[] ReturnBlackList()
+        {
+            List<Restriction> list = Restriction.ReadBlackList();
+            string s = Restriction.BlackListToString(list);
+            return AesAlg.Encrypt(s, Program.secretKey);
+        }
+
+        [PrincipalPermission(SecurityAction.Demand, Role = "ChangeConfiguration")]
+        public bool EditBlackList(byte[] crypted)
+        {
+            try
+            {
+                List<Restriction> newBlackList = (List<Restriction>)AesAlg.Decrypt(crypted, Program.secretKey);
+                Restriction.WriteBlackList(newBlackList);
+
+                string checksum = checkMD5("Blacklist.xml");
+                byte[] ba = Encoding.Default.GetBytes(checksum);
+                string hexString = BitConverter.ToString(ba);
+                writeInTxt(hexString);
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+                return false;
+            }           
+
+            
+        }
+
         private List<string> GetUsergroups(IdentityReferenceCollection irc)
         {
             List<string> lista = new List<string>();
@@ -212,5 +246,17 @@ namespace ServiceManagement
             }
             return newChecksum;
         }
+
+        public static void writeInTxt(string checksum)
+        {
+            using (StreamWriter writer = new StreamWriter("Checksum.txt"))
+            {
+                writer.Write(checksum);
+                //writer.Write("\n");
+                //writer.WriteLine();
+            }
+        }
+
+
     }
 }

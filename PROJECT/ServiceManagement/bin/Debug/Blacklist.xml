@@ -20,4 +20,9 @@
     <Port>13200</Port>
     <Protocol>HTTP</Protocol>
   </Restriction>
+  <Restriction>
+    <UserOrGroup>Admin</UserOrGroup>
+    <Port>1600</Port>
+    <Protocol>TCP</Protocol>
+  </Restriction>
 </ArrayOfRestriction>

@@ -51,6 +51,7 @@
     <Compile Include="IWCFContract.cs" />
     <Compile Include="OpenAppData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Restriction.cs" />
     <Compile Include="SecretKey.cs" />
   </ItemGroup>
   <ItemGroup>

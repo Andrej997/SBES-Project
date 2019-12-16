@@ -63,9 +63,9 @@ namespace Manager {
         /// <summary>
         ///   Looks up a localized string similar to ExchangeSessionKey,RunService,ChangeConfiguration.
         /// </summary>
-        internal static string Admin {
+        internal static string Admini {
             get {
-                return ResourceManager.GetString("Admin", resourceCulture);
+                return ResourceManager.GetString("Admini", resourceCulture);
             }
         }
         

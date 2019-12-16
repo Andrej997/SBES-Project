@@ -15,7 +15,7 @@ namespace Contracts
         {
             byte[] toBeEncrypted = null;
             byte[] encrypted = null;
-            
+
             AesCryptoServiceProvider aesCrypto = new AesCryptoServiceProvider
             {
                 Key = ASCIIEncoding.ASCII.GetBytes(secretKey),
@@ -47,7 +47,7 @@ namespace Contracts
             return encrypted;
         }
 
-        public static OpenAppData Decrypt(byte[] zaDesifrovati, string secretKey)
+        public static object Decrypt(byte[] zaDesifrovati, string secretKey)
         {
             byte[] decrypted = null;
 
@@ -78,7 +78,23 @@ namespace Contracts
 
             string[] lines = s.Split(',');
 
-            return new OpenAppData(lines[2], int.Parse(lines[0]), lines[1]);
+            if(lines[0] == "OpenAppData")
+                return new OpenAppData(lines[3], int.Parse(lines[1]), lines[2]);
+            else
+            {
+                List<Restriction> povratnaLista = new List<Restriction>();
+                int brojElemeneata = (lines.Length - (lines.Length % 3)) / 3;
+                for (int i = 0; i < brojElemeneata; i++)
+                {
+                    Restriction res = new Restriction();
+                    res.UserOrGroup = lines[i * 3];
+                    res.Port = Int32.Parse(lines[i * 3 + 1]);
+                    res.Protocol = lines[i * 3 + 2];
+                    povratnaLista.Add(res);
+                }
+
+                return povratnaLista;
+            }
         }
 
     }

@@ -28,7 +28,7 @@ namespace Contracts
 
         public override string ToString()
         {
-            return string.Format("{0},{1},{2},dodatnistringkakobiproradiloovocudonadamsenijemijasnoidaljezastoneradi", Port.ToString(), Protokol, ImeMasine);
+            return string.Format("OpenAppData,{0},{1},{2},1234567dsadsad132131238", Port.ToString(), Protokol, ImeMasine);
         }
 
         
