@@ -94,6 +94,10 @@ namespace Audit
         {
             string message = string.Format($"{item.ImeMasine} denied {item.CounterForDOS} times!", item.ImeMasine, OperationContext.Current.IncomingMessageHeaders.Action, "DoS");
             customLog.WriteEntry(message, eventLog);
+            if (eventLog == EventLogEntryType.Error) // ako je poslat Error znaci da je DoS u pitanju i izbaci ga iz liste radi memorije
+            {
+                Program.list.Remove(item);
+            }
             return "DoS";
         }
         
