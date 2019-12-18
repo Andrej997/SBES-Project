@@ -11,6 +11,16 @@
     <Protocol>HTTP</Protocol>
   </Restriction>
   <Restriction>
+    <UserOrGroup>Umetnik</UserOrGroup>
+    <Port>10001</Port>
+    <Protocol>UDP</Protocol>
+  </Restriction>
+  <Restriction>
+    <UserOrGroup>Genijalac</UserOrGroup>
+    <Port>10002</Port>
+    <Protocol>TCP</Protocol>
+  </Restriction>
+  <Restriction>
     <UserOrGroup>Genijalci</UserOrGroup>
     <Port>8624</Port>
     <Protocol>TCP</Protocol>

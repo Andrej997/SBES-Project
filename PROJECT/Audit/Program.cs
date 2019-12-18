@@ -29,24 +29,11 @@ namespace Audit
             hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new AuditServiceCertValidator();
             hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
             hostForAudit.Credentials.ServiceCertificate.Certificate = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
-            
-            
-            //hostForAudit.Credentials.ServiceCertificate.Certificate
-            //    = AuditCertManager.GetCertificateFromFile(@"D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\certifikati\WCFService.pfx", ss);
-            string dosMsg = "";
+
             try
             {
                 hostForAudit.Open();
                 Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
-                /*
-                list = new List<MessageFromSM>();
-                for (int i = 0; i < 11; i++)
-                {
-                    proxy = new WCFAudit();
-                    dosMsg = proxy.ConnectS("Client|Protocol|5142");
-                    Console.WriteLine(dosMsg);
-                }*/
-
                 Console.ReadLine();
             }
             catch (Exception e)
@@ -58,17 +45,6 @@ namespace Audit
             {
                 hostForAudit.Close();
             }
-            
-
-            //#region Audit
-            //ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
-            //newAudit.AuditLogLocation = AuditLogLocation.Application;
-            //newAudit.ServiceAuthorizationAuditLevel = AuditLevel.SuccessOrFailure;
-            //newAudit.SuppressAuditFailure = true;
-
-            //host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
-            //host.Description.Behaviors.Add(newAudit);
-            //#endregion
         }
     }
 }

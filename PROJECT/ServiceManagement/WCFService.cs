@@ -63,7 +63,7 @@ namespace ServiceManagement
             if(Restriction.IsRestricted(blackList, decryted, user, groups))
             {
                 Console.WriteLine("Korisnik nema dozvolu za otvaranje servisa na datom portu ili sa datim protokolom.");
-                string pov = WCFServiceAudit.ReturnFactory().ConnectS(string.Format("{0}|{1}|{2}", decryted.ImeMasine, decryted.Protokol, decryted.Port));
+                string pov = WCFServiceAudit.ReturnFactory().ConnectS(string.Format("{0}|{1}|{2}", user, decryted.Protokol, decryted.Port));
                 Console.WriteLine("------------------ OTVARANJE NEUSPESNO ------------------");
                 if (pov == "DOS")
                     return PovratnaVrijednost.DOS;
@@ -127,7 +127,7 @@ namespace ServiceManagement
             if (Restriction.IsRestricted(blackList, decryted, user, groups))
             {
 
-                string pov = WCFServiceAudit.ReturnFactory().ConnectS(string.Format("{0}|{1}|{2}", decryted.ImeMasine, decryted.Protokol, decryted.Port));
+                string pov = WCFServiceAudit.ReturnFactory().ConnectS(string.Format("{0}|{1}|{2}", user, decryted.Protokol, decryted.Port));
                 if (pov == "DOS")
                     return PovratnaVrijednost.DOS;
                 return PovratnaVrijednost.NEMADOZ; ;
