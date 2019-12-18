@@ -17,7 +17,7 @@ namespace Audit
         const string SourceName = "Audit";
         const string LogName = "ProjectLog";
         private static int DoS = 2;
-
+        private static int MinutesForDoS = 10;
         public string ConnectS(string msg)
         {
             if (msg == "TryConnect")
@@ -48,6 +48,7 @@ namespace Audit
             {
                 ++mfSM.CounterForDOS;
                 LogEvent(mfSM, EventLogEntryType.Warning);
+                mfSM.ConnectTime = DateTime.Now;
                 Program.list.Add(mfSM);
             }
             else
@@ -61,7 +62,14 @@ namespace Audit
                         ++item.CounterForDOS;
                         if (CheckDoS(item.CounterForDOS))
                         {
-                            return LogEvent(item, EventLogEntryType.Error);
+                            TimeSpan dt = DateTime.Now - item.ConnectTime;
+                            if (dt.Minutes < MinutesForDoS) // ako je napravio odredjen broj prekrsaja u intervalu do 10 min tek onda ide dos
+                                return LogEvent(item, EventLogEntryType.Error);
+                            else
+                            { // postoje je vremenski interval prosao, clijentu se nulira counter
+                                item.CounterForDOS = 1;
+                                LogEvent(item, EventLogEntryType.Warning);
+                            }
                         }
                         else
                         {
@@ -73,6 +81,7 @@ namespace Audit
                 if (found == false) // ako ga nije nasao
                 {
                     ++mfSM.CounterForDOS;
+                    mfSM.ConnectTime = DateTime.Now;
                     Program.list.Add(mfSM);
                     LogEvent(mfSM, EventLogEntryType.Warning);
                 }

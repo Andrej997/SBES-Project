@@ -12,6 +12,7 @@ namespace AuditContracts
         private int port;
         private string protokol;
         private int counterForDOS;
+        private DateTime connectTime;
 
         public MessageFromSM()
         {
@@ -21,5 +22,6 @@ namespace AuditContracts
         public int Port { get => port; set => port = value; }
         public string Protokol { get => protokol; set => protokol = value; }
         public int CounterForDOS { get => counterForDOS; set => counterForDOS = value; }
+        public DateTime ConnectTime { get => connectTime; set => connectTime = value; }
     }
 }
