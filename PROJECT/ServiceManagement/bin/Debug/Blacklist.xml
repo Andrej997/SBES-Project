@@ -35,4 +35,9 @@
     <Port>1600</Port>
     <Protocol>TCP</Protocol>
   </Restriction>
+  <Restriction>
+    <UserOrGroup>Admin1</UserOrGroup>
+    <Port>6666</Port>
+    <Protocol>HTTP</Protocol>
+  </Restriction>
 </ArrayOfRestriction>

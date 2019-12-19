@@ -44,6 +44,8 @@ namespace ServiceManagement
 
             }
 
+           
+
             /*Restriction res = new Restriction();
             res.UserOrGroup = "Jadnici";
             res.Port = 5214;
@@ -68,12 +70,12 @@ namespace ServiceManagement
 
             Restriction.WriteBlackList(ress);*/
 
-            
+
             //Process notePad = new Process();
             //notePad.StartInfo.FileName = "mspaint.exe";
             ////notePad.StartInfo.Arguments = "mytextfile.txt";
             //notePad.Start();
-            
+
             //*****
 
             /*Blacklist blacklist = new Blacklist();
