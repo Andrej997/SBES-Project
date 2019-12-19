@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using AuditContracts;
 
 namespace Audit
@@ -16,13 +18,12 @@ namespace Audit
         private static EventLog customLog = null;
         const string SourceName = "Audit";
         const string LogName = "ProjectLog";
-        private static int DoS = 2;
-        private static int MinutesForDoS = 10;
         public string ConnectS(string msg)
         {
             if (msg == "TryConnect")
                 return "Success!";
-
+            
+            // proveri da li postoji source pod imenom Audit
             if (!EventLog.SourceExists(SourceName))
             {
                 EventLog.CreateEventSource(SourceName, LogName);
@@ -44,6 +45,7 @@ namespace Audit
             mfSM.Protokol = arr[1];
             mfSM.Port = Int32.Parse(arr[2]);
 
+            // ako je slita prazna 
             if (Program.list.Count == 0)
             {
                 ++mfSM.CounterForDOS;
@@ -62,12 +64,20 @@ namespace Audit
                         ++item.CounterForDOS;
                         if (CheckDoS(item.CounterForDOS))
                         {
+                            // od trenutnog vremena oduzmemo njegovo konektovano vreme da bi znali da li je
+                            // u itervalu za DoS
                             TimeSpan dt = DateTime.Now - item.ConnectTime;
-                            if (dt.Minutes < MinutesForDoS) // ako je napravio odredjen broj prekrsaja u intervalu do 10 min tek onda ide dos
+                            if (dt.Minutes < Program.paramsForDoS.Item2) // ako je napravio odredjen broj prekrsaja u intervalu do 10 min tek onda ide dos
                                 return LogEvent(item, EventLogEntryType.Error);
                             else
-                            { // postoje je vremenski interval prosao, clijentu se nulira counter
+                            { 
+                                // postoje je vremenski interval prosao, clijentu se nulira counter,
+                                // tj. posto mu je posle isteklog intervala ovo zvanicno prvi pokusaj,
+                                // counter se postavlja na 1
                                 item.CounterForDOS = 1;
+                                // resetuje se vreme prijavljivanja prvog napada
+                                item.ConnectTime = DateTime.Now;
+                                // loguje se samo warning, jer mu je sad zapravo prvi pokusaj
                                 LogEvent(item, EventLogEntryType.Warning);
                             }
                         }
@@ -93,7 +103,7 @@ namespace Audit
 
         private static bool CheckDoS(int count)
         {
-            if (count == DoS)
+            if (count == Program.paramsForDoS.Item1)
                 return true;
             else
                 return false;
@@ -109,6 +119,7 @@ namespace Audit
             }
             return "DoS";
         }
+        
         
     }
 }

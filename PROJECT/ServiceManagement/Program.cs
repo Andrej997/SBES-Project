@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.ServiceModel;
 using Contracts;
-using System.ServiceModel.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
 using Manager;
 using System.ServiceModel.Description;
 using System.IdentityModel.Policy;
 using System.Security.Cryptography;
 using System.IO;
 using AuditContracts;
-using System.Threading;
 
 namespace ServiceManagement
 {
@@ -47,6 +44,8 @@ namespace ServiceManagement
 
             }
 
+           
+
             /*Restriction res = new Restriction();
             res.UserOrGroup = "Jadnici";
             res.Port = 5214;
@@ -71,12 +70,12 @@ namespace ServiceManagement
 
             Restriction.WriteBlackList(ress);*/
 
-            
+
             //Process notePad = new Process();
             //notePad.StartInfo.FileName = "mspaint.exe";
             ////notePad.StartInfo.Arguments = "mytextfile.txt";
             //notePad.Start();
-            
+
             //*****
 
             /*Blacklist blacklist = new Blacklist();

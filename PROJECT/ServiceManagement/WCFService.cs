@@ -3,23 +3,17 @@ using Manager;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ServiceManagement
 {
     public class WCFService : IWCFContract
     {
-        //Dictionary<imeKorisnika, Dictionary<brojServisa, njegovEndpoint>>
-        //private static Dictionary<string, Dictionary<int, string>> servisi = new Dictionary<string, Dictionary<int, string>>();
-        //Dictionary<port+protokol, serviceHost>
         private static Dictionary<string, ServiceHost> servisi = new Dictionary<string, ServiceHost>();
         private static List<Restriction> blackList;
         //Dictionary<korisnik, kljucSesije>
@@ -228,12 +222,7 @@ namespace ServiceManagement
                 while ((pom = reader.ReadLine()) != null)
                 {
                     newChecksum += pom;
-                    //if(pom == null)
-                    //{
-                    //    newChecksum += "\n";
-                    //}
                 }
-                //newChecksum += "\n";
             }
             return newChecksum;
         }
@@ -243,8 +232,6 @@ namespace ServiceManagement
             using (StreamWriter writer = new StreamWriter("Checksum.txt"))
             {
                 writer.Write(checksum);
-                //writer.Write("\n");
-                //writer.WriteLine();
             }
         }
 
