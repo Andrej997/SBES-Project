@@ -65,7 +65,7 @@ namespace ServiceManagement
                 Console.WriteLine("Korisnik nema dozvolu za otvaranje servisa na datom portu ili sa datim protokolom.");
                 string pov = WCFServiceAudit.ReturnFactory().ConnectS(string.Format("{0}|{1}|{2}", user, decryted.Protokol, decryted.Port));
                 Console.WriteLine("------------------ OTVARANJE NEUSPESNO ------------------");
-                if (pov == "DOS")
+                if (pov == "DoS")
                     return PovratnaVrijednost.DOS;
                 return PovratnaVrijednost.NEMADOZ;;
                 

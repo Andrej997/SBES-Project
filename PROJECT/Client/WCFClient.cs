@@ -42,6 +42,7 @@ namespace Client
             {
                 secretKey = factory.Connect();
                 ChoseAppToOpen();
+                
 
                 return "";
             }
