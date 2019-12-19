@@ -23,7 +23,7 @@ namespace TestiranjeOtvorenihKonekcija
 
             IWCFContract factory = new ChannelFactory<IWCFContract>(binding, address).CreateChannel();
 
-            factory.Connect();
+            factory.Connect("");
 
             EndpointAddress endpointAddress = new EndpointAddress(new Uri(address));
         }

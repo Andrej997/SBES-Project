@@ -21,7 +21,7 @@ namespace Client
     public class WCFClient : ChannelFactory<IWCFContract>, IWCFContract, IDisposable
     {
         private static IWCFContract factory;
-        private static string secretKey;
+        private static string secretKey = SecretKey.GenerateKey();
         private static string machineName = System.Environment.MachineName;
 
         public WCFClient(NetTcpBinding binding, EndpointAddress address)
@@ -36,15 +36,16 @@ namespace Client
             throw new NotImplementedException();
         }
 
-        public string Connect()
+        public bool Connect(string s)
         {
             try
             {
-                secretKey = factory.Connect();
-                ChoseAppToOpen();
-                
+                if (factory.Connect(secretKey))
+                    ChoseAppToOpen();
+                else
+                    return false;
 
-                return "";
+                return true;
             }
             catch(FaultException e)
             {
@@ -54,7 +55,7 @@ namespace Client
             {
                 Console.WriteLine("[TestCommunication] ERROR = {0}", e.Message);
             }
-            return "";
+            return false;
         }
 
         public bool EditBlackList(byte[] crypted)

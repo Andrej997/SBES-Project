@@ -19,7 +19,7 @@ namespace Contracts
     public interface IWCFContract
     {
         [OperationContract]
-        string Connect();
+        bool Connect(string sessionKey);
 
         [OperationContract]
         PovratnaVrijednost OpenApp(byte[] encrypted);

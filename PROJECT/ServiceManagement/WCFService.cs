@@ -22,32 +22,23 @@ namespace ServiceManagement
         //Dictionary<port+protokol, serviceHost>
         private static Dictionary<string, ServiceHost> servisi = new Dictionary<string, ServiceHost>();
         private static List<Restriction> blackList;
+        //Dictionary<korisnik, kljucSesije>
+        private static Dictionary<string, string> sessionKeys = new Dictionary<string, string>();
 
         [PrincipalPermission(SecurityAction.Demand, Role = "ExchangeSessionKey")]
-        public string Connect()
+        public bool Connect(string sessionKey)
         {
             IIdentity identity = Thread.CurrentPrincipal.Identity;
             Console.WriteLine("User with name: {0} connected to service!", identity.Name);
-           /* Console.WriteLine("IsAuthenticated {0}", identity.IsAuthenticated);
-            Console.WriteLine("AuthenticationType {0}", identity.AuthenticationType);
-
-            WindowsIdentity winIdentity = identity as WindowsIdentity;
-            Console.WriteLine("Security Identifier (SID) {0}", winIdentity.User); // ovo ne moze preko IIentity id=nterfejsa jer je Windows-specific
-            
-            foreach (IdentityReference group in winIdentity.Groups)
-            {
-                SecurityIdentifier sid = (SecurityIdentifier)group.Translate(typeof(SecurityIdentifier));
-                var name = sid.Translate(typeof(NTAccount));
-                Console.WriteLine("{0}", name.ToString());
-            }*/
-            return Program.secretKey;           
+            sessionKeys.Add(Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name), sessionKey);
+            return true;           
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "RunService")]
         public PovratnaVrijednost OpenApp(byte[] encrypted)
         {
             
-            OpenAppData decryted = (OpenAppData)AesAlg.Decrypt(encrypted, Program.secretKey);
+            OpenAppData decryted = (OpenAppData)AesAlg.Decrypt(encrypted, sessionKeys[Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name)]);
             Console.WriteLine("------------------ OTVARANJE SERVISA ------------------");
             Console.WriteLine("Korisnik {0} je zatrazio otvaranje novog servisa na portu {1} sa protokolom {2}", Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name)
                 , decryted.Port, decryted.Protokol);
@@ -113,7 +104,7 @@ namespace ServiceManagement
         [PrincipalPermission(SecurityAction.Demand, Role = "RunService")]
         public PovratnaVrijednost CloseApp(byte[] encrypted)
         {
-            OpenAppData decryted = (OpenAppData)AesAlg.Decrypt(encrypted, Program.secretKey);
+            OpenAppData decryted = (OpenAppData)AesAlg.Decrypt(encrypted, sessionKeys[Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name)]);
 
             IIdentity identity = Thread.CurrentPrincipal.Identity;
             WindowsIdentity winIdentity = identity as WindowsIdentity;
@@ -176,7 +167,7 @@ namespace ServiceManagement
         {
             List<Restriction> list = Restriction.ReadBlackList();
             string s = Restriction.BlackListToString(list);
-            return AesAlg.Encrypt(s, Program.secretKey);
+            return AesAlg.Encrypt(s, sessionKeys[Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name)]);
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "ChangeConfiguration")]
@@ -184,7 +175,7 @@ namespace ServiceManagement
         {
             try
             {
-                List<Restriction> newBlackList = (List<Restriction>)AesAlg.Decrypt(crypted, Program.secretKey);
+                List<Restriction> newBlackList = (List<Restriction>)AesAlg.Decrypt(crypted, sessionKeys[Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name)]);
                 Restriction.WriteBlackList(newBlackList);
 
                 string checksum = checkMD5("Blacklist.xml");

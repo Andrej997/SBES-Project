@@ -33,7 +33,7 @@ namespace Client
 
             using (WCFClient proxy = new WCFClient(binding, endpointAddress))
             {
-                secretKey = proxy.Connect();
+               proxy.Connect("");
             }
             Console.ReadLine();
             #region AES ENKRIPCIJA DEKRIPCIJA TEST --- RADI KAO PODMAZANO
