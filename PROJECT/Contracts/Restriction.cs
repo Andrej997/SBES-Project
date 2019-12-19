@@ -60,7 +60,17 @@ namespace Contracts
 
                 foreach (string s in userGroups)
                 {
-                    if (s == res.UserOrGroup)
+                    string[] temp = null;
+                    try
+                    { // posto su neke grupe u obliku DESKTOP-...\...
+                        temp = s.Split('\\');
+                        temp[0] = temp[1];
+                    }
+                    catch
+                    {
+                        temp[0] = s;
+                    }
+                    if (temp[0] == res.UserOrGroup)
                     {
                         if (data.Port == res.Port || data.Protokol == res.Protocol)
                             return true;
