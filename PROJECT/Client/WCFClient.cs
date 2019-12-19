@@ -126,7 +126,7 @@ namespace Client
                             }
                             
                         }
-                        catch (FaultException e)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Request failed! Error message: " + e.Message);
                         }
@@ -161,7 +161,7 @@ namespace Client
                             }
                                                       
                         }
-                        catch(FaultException e)
+                        catch(Exception e)
                         {
                             Console.WriteLine("Request failed! Error message: " + e.Message);
                         }
@@ -182,84 +182,91 @@ namespace Client
                             }
                             
                         }
-                        catch(FaultException e)
+                        catch(Exception e)
                         {
                             Console.WriteLine("Request failed! Error message: " + e.Message);
                         }
                         break;
                     case '4':
-                        Console.Clear();
-                        char key1 = '0';
-                        List<Restriction> blacklist = (List<Restriction>)AesAlg.Decrypt(ReturnBlackList(), secretKey);
-                        while (key1 != '3')
+                        try
                         {
-                            int br = 1;
-
-                            Console.WriteLine("Blacklist:");
-                            foreach (Restriction r in blacklist)
+                            Console.Clear();
+                            char key1 = '0';
+                            List<Restriction> blacklist = (List<Restriction>)AesAlg.Decrypt(ReturnBlackList(), secretKey);
+                            while (key1 != '3')
                             {
-                                Console.WriteLine("{0}. {1}\t{2}\t{3}", br++, r.UserOrGroup, r.Port, r.Protocol);
-                            }
-                            Console.WriteLine("Chose action:");
-                            Console.WriteLine("\t1.Add new restriction");
-                            Console.WriteLine("\t2.Delete existing restriction");
-                            Console.WriteLine("\t3.Finish");
+                                int br = 1;
 
-                            key1 = Console.ReadKey().KeyChar;
-
-                            if(key1 == '1')
-                            {
-                                Console.WriteLine("Which user/user group:");
-                                string userG = Console.ReadLine();
-                                Console.WriteLine("Which port");
-                                int portBr = 0;
-                                string port1 = Console.ReadLine();
-                                if(port1 != "")
+                                Console.WriteLine("Blacklist:");
+                                foreach (Restriction r in blacklist)
                                 {
-                                    if (!Int32.TryParse(port1, out portBr))
+                                    Console.WriteLine("{0}. {1}\t{2}\t{3}", br++, r.UserOrGroup, r.Port, r.Protocol);
+                                }
+                                Console.WriteLine("Chose action:");
+                                Console.WriteLine("\t1.Add new restriction");
+                                Console.WriteLine("\t2.Delete existing restriction");
+                                Console.WriteLine("\t3.Finish");
+
+                                key1 = Console.ReadKey().KeyChar;
+
+                                if (key1 == '1')
+                                {
+                                    Console.WriteLine("Which user/user group:");
+                                    string userG = Console.ReadLine();
+                                    Console.WriteLine("Which port");
+                                    int portBr = 0;
+                                    string port1 = Console.ReadLine();
+                                    if (port1 != "")
                                     {
-                                        Console.WriteLine("For port, please enter a number");
+                                        if (!Int32.TryParse(port1, out portBr))
+                                        {
+                                            Console.WriteLine("For port, please enter a number");
+                                            continue;
+                                        }
+
+                                    }
+                                    string proto = ChoseProto();
+
+                                    Restriction r = new Restriction();
+                                    r.UserOrGroup = userG;
+                                    r.Port = portBr;
+                                    r.Protocol = proto;
+
+                                    blacklist.Add(r);
+                                    Console.WriteLine("Restriction successfully added to blacklist!");
+                                }
+                                else if (key1 == '2')
+                                {
+                                    int redni = 0;
+                                    Console.WriteLine("Wich restriction do you want to delete? Enter the number next to the restriction");
+                                    string brisanje = Console.ReadLine();
+                                    if (brisanje == "")
+                                    {
+                                        Console.WriteLine("Please enter a number!");
                                         continue;
                                     }
-                                        
+                                    if (!Int32.TryParse(brisanje, out redni))
+                                    {
+                                        Console.WriteLine("Please enter a number!");
+                                        continue;
+                                    }
+
+                                    blacklist.RemoveAt(redni + 1);
+                                    Console.WriteLine("Restriction successfully deleted from blackList!");
                                 }
-                                string proto = ChoseProto();
-
-                                Restriction r = new Restriction();
-                                r.UserOrGroup = userG;
-                                r.Port = portBr;
-                                r.Protocol = proto;
-
-                                blacklist.Add(r);
-                                Console.WriteLine("Restriction successfully added to blacklist!");
                             }
-                            else if(key1 == '2')
+                            if (EditBlackList(AesAlg.Encrypt(Restriction.BlackListToString(blacklist), secretKey)))
                             {
-                                int redni = 0;
-                                Console.WriteLine("Wich restriction do you want to delete? Enter the number next to the restriction");
-                                string brisanje = Console.ReadLine();
-                                if (brisanje == "")
-                                {
-                                    Console.WriteLine("Please enter a number!");
-                                    continue;
-                                }
-                                if(!Int32.TryParse(brisanje, out redni))
-                                {
-                                    Console.WriteLine("Please enter a number!");
-                                    continue;
-                                }
-
-                                blacklist.RemoveAt(redni + 1);
-                                Console.WriteLine("Restriction successfully deleted from blackList!");
+                                Console.WriteLine("Succesfully edited blacklist!");
                             }
-                        }  
-                        if(EditBlackList(AesAlg.Encrypt(Restriction.BlackListToString(blacklist), secretKey)))
-                        {
-                            Console.WriteLine("Succesfully edited blacklist!");
+                            else
+                            {
+                                Console.WriteLine("Failed to edit blacklist!");
+                            }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            Console.WriteLine("Failed to edit blacklist!");
+                            Console.WriteLine("Request failed! Error message: " + e.Message);
                         }
                         break;
                     case '5':
