@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using AuditContracts;
 
 namespace Audit
@@ -16,12 +18,11 @@ namespace Audit
         private static EventLog customLog = null;
         const string SourceName = "Audit";
         const string LogName = "ProjectLog";
-        private static int DoS = 2;
-        private static int MinutesForDoS = 10;
         public string ConnectS(string msg)
         {
             if (msg == "TryConnect")
                 return "Success!";
+            
 
             if (!EventLog.SourceExists(SourceName))
             {
@@ -63,7 +64,7 @@ namespace Audit
                         if (CheckDoS(item.CounterForDOS))
                         {
                             TimeSpan dt = DateTime.Now - item.ConnectTime;
-                            if (dt.Minutes < MinutesForDoS) // ako je napravio odredjen broj prekrsaja u intervalu do 10 min tek onda ide dos
+                            if (dt.Minutes < Program.paramsForDoS.Item2) // ako je napravio odredjen broj prekrsaja u intervalu do 10 min tek onda ide dos
                                 return LogEvent(item, EventLogEntryType.Error);
                             else
                             { // postoje je vremenski interval prosao, clijentu se nulira counter
@@ -93,7 +94,7 @@ namespace Audit
 
         private static bool CheckDoS(int count)
         {
-            if (count == DoS)
+            if (count == Program.paramsForDoS.Item1)
                 return true;
             else
                 return false;
@@ -109,6 +110,7 @@ namespace Audit
             }
             return "DoS";
         }
+        
         
     }
 }

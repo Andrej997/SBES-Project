@@ -9,6 +9,7 @@ using System.ServiceModel.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using AuditContracts;
 
 namespace Audit
@@ -16,6 +17,8 @@ namespace Audit
     class Program
     {
         public static List<MessageFromSM> list;
+        public static Tuple<int, int> paramsForDoS;
+
         static void Main(string[] args)
         {
             // Certificate connection with Audit
@@ -33,6 +36,7 @@ namespace Audit
             try
             {
                 hostForAudit.Open();
+                paramsForDoS = ReadParamsForDoS();
                 Console.WriteLine("WCFService is started.\nPress <enter> to stop ...");
                 Console.ReadLine();
             }
@@ -45,6 +49,41 @@ namespace Audit
             {
                 hostForAudit.Close();
             }
+        }
+
+        private static Tuple<int, int> ReadParamsForDoS()
+        {
+            string attemps = null;
+            string minutes = null;
+            try
+            {
+                XmlReader xmlReader = XmlReader.Create("DoS.xml");
+                while (xmlReader.Read())
+                {
+                    // Only detect start elements.
+                    if (xmlReader.IsStartElement())
+                    {
+                        // Get element name and switch on it.
+                        switch (xmlReader.Name)
+                        {
+                            case "Attemps":
+                                if (xmlReader.Read())
+                                    attemps = xmlReader.Value.Trim();
+                                break;
+                            case "Minutes":
+                                if (xmlReader.Read())
+                                    minutes = xmlReader.Value.Trim();
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return new Tuple<int, int>(Int32.Parse(attemps), Int32.Parse(minutes));
         }
     }
 }
