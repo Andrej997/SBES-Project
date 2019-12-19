@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AuditContracts
 {
     public class MessageFromSM
     {
-        private string imeMasine;
+        // ime klijenta
+        private string imeMasine; 
+        // port na kojem zeli da se konektuje
         private int port;
+        // protokol preko kojeg zeli da se konetkuje
         private string protokol;
+        // brojac zabranjenih pristupa
         private int counterForDOS;
+        // vreme konektovanja
         private DateTime connectTime;
 
         public MessageFromSM()

@@ -23,7 +23,7 @@ namespace Audit
             if (msg == "TryConnect")
                 return "Success!";
             
-
+            // proveri da li postoji source pod imenom Audit
             if (!EventLog.SourceExists(SourceName))
             {
                 EventLog.CreateEventSource(SourceName, LogName);
@@ -45,6 +45,7 @@ namespace Audit
             mfSM.Protokol = arr[1];
             mfSM.Port = Int32.Parse(arr[2]);
 
+            // ako je slita prazna 
             if (Program.list.Count == 0)
             {
                 ++mfSM.CounterForDOS;
@@ -63,12 +64,20 @@ namespace Audit
                         ++item.CounterForDOS;
                         if (CheckDoS(item.CounterForDOS))
                         {
+                            // od trenutnog vremena oduzmemo njegovo konektovano vreme da bi znali da li je
+                            // u itervalu za DoS
                             TimeSpan dt = DateTime.Now - item.ConnectTime;
                             if (dt.Minutes < Program.paramsForDoS.Item2) // ako je napravio odredjen broj prekrsaja u intervalu do 10 min tek onda ide dos
                                 return LogEvent(item, EventLogEntryType.Error);
                             else
-                            { // postoje je vremenski interval prosao, clijentu se nulira counter
+                            { 
+                                // postoje je vremenski interval prosao, clijentu se nulira counter,
+                                // tj. posto mu je posle isteklog intervala ovo zvanicno prvi pokusaj,
+                                // counter se postavlja na 1
                                 item.CounterForDOS = 1;
+                                // resetuje se vreme prijavljivanja prvog napada
+                                item.ConnectTime = DateTime.Now;
+                                // loguje se samo warning, jer mu je sad zapravo prvi pokusaj
                                 LogEvent(item, EventLogEntryType.Warning);
                             }
                         }

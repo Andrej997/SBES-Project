@@ -16,22 +16,35 @@ namespace Audit
 {
     class Program
     {
+        // lista prijavljenih klijenata
         public static List<MessageFromSM> list;
+        // parametri za aktiviranje DoS, prvi je broj dozvoljenih pokusaja a drugi vremeski interval
         public static Tuple<int, int> paramsForDoS;
 
         static void Main(string[] args)
         {
-            // Certificate connection with Audit
+            // Serrifikad za konektovanje
             string srvCertCN = "wcfservice";
             NetTcpBinding bindingAudit = new NetTcpBinding();
-            bindingAudit.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            bindingAudit.Security.Transport.ClientCredentialType 
+                = TcpClientCredentialType.Certificate;
             string addressForAudit = "net.tcp://localhost:8888/RecieverAudit";
-            ServiceHost hostForAudit = new ServiceHost(typeof(WCFAudit));
+            ServiceHost hostForAudit 
+                = new ServiceHost(typeof(WCFAudit));
             hostForAudit.AddServiceEndpoint(typeof(IWCFAudit), bindingAudit, addressForAudit);
-            hostForAudit.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
-            hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new AuditServiceCertValidator();
-            hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
-            hostForAudit.Credentials.ServiceCertificate.Certificate = AuditCertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            hostForAudit.Credentials.ClientCertificate.Authentication.CertificateValidationMode 
+                = X509CertificateValidationMode.Custom;
+            // postovanje nasih serfitikata
+            hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator 
+                = new AuditServiceCertValidator();
+            hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode 
+                = X509RevocationMode.NoCheck;
+            // Uzima sa masine sertifikat za konektovanje
+            hostForAudit.Credentials.ServiceCertificate.Certificate 
+                = AuditCertManager.GetCertificateFromStorage(
+                            StoreName.My, 
+                            StoreLocation.LocalMachine, 
+                            srvCertCN);
 
             try
             {
@@ -53,6 +66,7 @@ namespace Audit
 
         private static Tuple<int, int> ReadParamsForDoS()
         {
+            Tuple<int, int> retVal = null;
             string attemps = null;
             string minutes = null;
             try
@@ -60,10 +74,8 @@ namespace Audit
                 XmlReader xmlReader = XmlReader.Create("DoS.xml");
                 while (xmlReader.Read())
                 {
-                    // Only detect start elements.
                     if (xmlReader.IsStartElement())
                     {
-                        // Get element name and switch on it.
                         switch (xmlReader.Name)
                         {
                             case "Attemps":
@@ -77,13 +89,17 @@ namespace Audit
                         }
                     }
                 }
+                retVal = new Tuple<int, int>(Int32.Parse(attemps), Int32.Parse(minutes));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                // ako je nekim slucajem nesto fajl ili pukao reader
+                // postavicemo na 10 pokusaja u 10 minuta
+                retVal = new Tuple<int, int>(10, 10);
             }
 
-            return new Tuple<int, int>(Int32.Parse(attemps), Int32.Parse(minutes));
+            return retVal;
         }
     }
 }

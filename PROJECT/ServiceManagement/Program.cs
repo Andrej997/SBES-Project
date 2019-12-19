@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.ServiceModel;
 using Contracts;
-using System.ServiceModel.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
 using Manager;
 using System.ServiceModel.Description;
 using System.IdentityModel.Policy;
 using System.Security.Cryptography;
 using System.IO;
 using AuditContracts;
-using System.Threading;
 
 namespace ServiceManagement
 {

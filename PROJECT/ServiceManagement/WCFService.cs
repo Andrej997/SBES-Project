@@ -3,23 +3,17 @@ using Manager;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ServiceManagement
 {
     public class WCFService : IWCFContract
     {
-        //Dictionary<imeKorisnika, Dictionary<brojServisa, njegovEndpoint>>
-        //private static Dictionary<string, Dictionary<int, string>> servisi = new Dictionary<string, Dictionary<int, string>>();
-        //Dictionary<port+protokol, serviceHost>
         private static Dictionary<string, ServiceHost> servisi = new Dictionary<string, ServiceHost>();
         private static List<Restriction> blackList;
 
@@ -28,18 +22,6 @@ namespace ServiceManagement
         {
             IIdentity identity = Thread.CurrentPrincipal.Identity;
             Console.WriteLine("User with name: {0} connected to service!", identity.Name);
-           /* Console.WriteLine("IsAuthenticated {0}", identity.IsAuthenticated);
-            Console.WriteLine("AuthenticationType {0}", identity.AuthenticationType);
-
-            WindowsIdentity winIdentity = identity as WindowsIdentity;
-            Console.WriteLine("Security Identifier (SID) {0}", winIdentity.User); // ovo ne moze preko IIentity id=nterfejsa jer je Windows-specific
-            
-            foreach (IdentityReference group in winIdentity.Groups)
-            {
-                SecurityIdentifier sid = (SecurityIdentifier)group.Translate(typeof(SecurityIdentifier));
-                var name = sid.Translate(typeof(NTAccount));
-                Console.WriteLine("{0}", name.ToString());
-            }*/
             return Program.secretKey;           
         }
 
@@ -237,12 +219,7 @@ namespace ServiceManagement
                 while ((pom = reader.ReadLine()) != null)
                 {
                     newChecksum += pom;
-                    //if(pom == null)
-                    //{
-                    //    newChecksum += "\n";
-                    //}
                 }
-                //newChecksum += "\n";
             }
             return newChecksum;
         }
@@ -252,8 +229,6 @@ namespace ServiceManagement
             using (StreamWriter writer = new StreamWriter("Checksum.txt"))
             {
                 writer.Write(checksum);
-                //writer.Write("\n");
-                //writer.WriteLine();
             }
         }
 
