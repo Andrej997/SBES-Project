@@ -24,7 +24,10 @@ namespace ServiceManagement
         {
             IIdentity identity = Thread.CurrentPrincipal.Identity;
             Console.WriteLine("User with name: {0} connected to service!", identity.Name);
-            sessionKeys.Add(Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name), sessionKey);
+            if (sessionKeys.ContainsKey(Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name)))
+                sessionKeys[Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name)] = sessionKey;
+            else
+                sessionKeys.Add(Formatter.ParseName(Thread.CurrentPrincipal.Identity.Name), sessionKey);
             return true;           
         }
 
