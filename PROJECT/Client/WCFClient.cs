@@ -181,6 +181,8 @@ namespace Client
                             else
                             {
                                 Console.WriteLine("Black list is not valid!");
+                                Thread.Sleep(1000);
+                                return;
                             }
                             
                         }
