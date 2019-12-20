@@ -1,0 +1,2 @@
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Client.exe
+D:\FAX\7.SEMESTAR\SBES\PROJEKAT\PROJECT\SBES-Project\PROJECT\Client\bin\Debug\Contracts.dll

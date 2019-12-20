@@ -30,6 +30,12 @@ namespace Audit
             }
             customLog = new EventLog(LogName, Environment.MachineName, SourceName);
 
+            if (msg == "Blacklist")
+            {
+                customLog.WriteEntry("Blacklist is invalid!", EventLogEntryType.Error);
+                return "invalid";
+            }
+
             if (Program.list == null)
             {
                 Program.list = new List<MessageFromSM>();

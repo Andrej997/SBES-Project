@@ -149,6 +149,7 @@ namespace ServiceManagement
             }
             else
             {
+                string pov = WCFServiceAudit.ReturnFactory().ConnectS("Blacklist");
                 Console.WriteLine("Doslo je do ilegalnih izmena!!! ");
                 Console.WriteLine("------------------------------------------------------");
                 return false;
