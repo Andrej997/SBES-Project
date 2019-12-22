@@ -125,6 +125,7 @@ namespace ServiceManagement
             if (servisi.ContainsKey(key))
             {
                 servisi[key].Close();
+                servisi.Remove(key);
                 return PovratnaVrijednost.USPJEH;
             }
 

@@ -34,7 +34,7 @@ namespace Audit
             hostForAudit.AddServiceEndpoint(typeof(IWCFAudit), bindingAudit, addressForAudit);
             hostForAudit.Credentials.ClientCertificate.Authentication.CertificateValidationMode 
                 = X509CertificateValidationMode.Custom;
-            // postovanje nasih serfitikata
+            // posto je custom moramo samo da validiramo
             hostForAudit.Credentials.ClientCertificate.Authentication.CustomCertificateValidator 
                 = new AuditServiceCertValidator();
             hostForAudit.Credentials.ClientCertificate.Authentication.RevocationMode 
