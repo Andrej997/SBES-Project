@@ -8,7 +8,7 @@
   <Restriction>
     <UserOrGroup>Jadnik</UserOrGroup>
     <Port>10000</Port>
-    <Protocol>HTTP</Protocol>
+    <Protocol></Protocol>
   </Restriction>
   <Restriction>
     <UserOrGroup>Umetnik</UserOrGroup>

@@ -25,7 +25,7 @@ namespace ServiceManagement
             : base(binding, address)
         {
             /// audCertCN.SubjectName should be set to the audit's username. .NET WindowsIdentity class provides information about Windows user running the given process
-            string audCertCN = "wcfservice";
+            string audCertCN = "wcfclient";
             bind = binding;
             addr = address;
 

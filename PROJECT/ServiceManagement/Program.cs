@@ -16,6 +16,7 @@ namespace ServiceManagement
     class Program
     {
         public static string secretKey;
+        public static ServiceHost host;
         static void Main(string[] args)
         {
             /// Define the expected service certificate. It is required to establish cmmunication using certificates.
@@ -44,7 +45,7 @@ namespace ServiceManagement
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
             binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
             string address = "net.tcp://localhost:9999/Receiver";
-            ServiceHost host = new ServiceHost(typeof(WCFService));
+            host = new ServiceHost(typeof(WCFService));
             host.AddServiceEndpoint(typeof(IWCFContract), binding, address);
 
             host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
